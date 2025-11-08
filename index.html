@@ -3,790 +3,409 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>Cardinal Lawn Check • Homeowner</title>
-  <meta name="theme-color" content="#f5faf7" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <title>Cardinal Calculator • Watch the Build. Test the Brain.</title>
+  <meta name="description" content="Upload ➜ Analyze ➜ Send. A live-in-public lawn & landscape intelligence tool built for pros and homeowners." />
   <style>
     :root {
-      --bg: #f5faf7;
-      --panel: #ffffff;
-      --border: rgba(15,23,42,0.06);
-      --accent: #18a869;
-      --accent-soft: rgba(24,168,105,0.10);
-      --accent-soft-2: rgba(24,168,105,0.06);
-      --ink: #111827;
-      --muted: #6b7280;
-      --danger: #dc2626;
-      --radius-xl: 22px;
-      --shadow-soft: 0 14px 40px rgba(15,23,42,0.10);
-      --font: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      --bg:#070b0a;
+      --panel:#101614;
+      --accent:#35d29a;
+      --accent-soft:rgba(53,210,154,0.18);
+      --text:#f5fbf6;
+      --muted:#9fb3a8;
+      --border:rgba(245,251,246,0.12);
+      --warn:#f6bf3a;
     }
 
-    * { box-sizing: border-box; }
-
-    html, body {
-      margin: 0;
-      padding: 0;
-      font-family: var(--font);
-      background:
-        radial-gradient(circle at top, #e9fdf5 0, #f5faf7 40%, #f5faf7 100%);
-      color: var(--ink);
-      -webkit-font-smoothing: antialiased;
+    * {
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
     }
 
     body {
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      padding: 14px 8px 18px;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", -sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(53,210,154,0.12), transparent 55%),
+        radial-gradient(circle at top right, rgba(111,196,255,0.09), transparent 55%),
+        var(--bg);
+      color:var(--text);
+      min-height:100vh;
+      display:flex;
+      justify-content:center;
+      padding:32px 18px 40px;
     }
 
     .shell {
-      width: 100%;
-      max-width: 960px;
-      background: linear-gradient(to bottom, rgba(255,255,255,0.98), #ffffff);
-      border-radius: 26px;
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow-soft);
-      padding: 14px 10px 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
+      width:100%;
+      max-width:1120px;
+      border-radius:28px;
+      padding:26px 22px 22px;
+      border:1px solid var(--border);
+      background:radial-gradient(circle at top, rgba(255,255,255,0.02), transparent 70%) var(--panel);
+      box-shadow:0 22px 80px rgba(0,0,0,0.72);
+      display:flex;
+      flex-direction:column;
+      gap:22px;
     }
 
-    /* Topbar */
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 10px;
+    .top-row {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:14px;
     }
 
-    .brand {
-      display: flex;
-      gap: 8px;
-      align-items: center;
+    .brand-lockup {
+      display:flex;
+      align-items:center;
+      gap:8px;
     }
 
     .brand-orb {
-      width: 24px;
-      height: 24px;
-      border-radius: 999px;
-      background: radial-gradient(circle at 30% 20%, #22c55e, #15803d);
-      box-shadow: 0 0 14px rgba(22,163,74,0.35);
+      width:22px;
+      height:22px;
+      border-radius:999px;
+      background:radial-gradient(circle at 30% 0, #ffffff, var(--accent));
+      box-shadow:0 0 16px rgba(53,210,154,0.9);
     }
 
     .brand-text {
-      display: flex;
-      flex-direction: column;
-      gap: 1px;
+      font-size:14px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:var(--muted);
     }
 
-    .brand-title {
-      font-size: 17px;
-      font-weight: 600;
-      letter-spacing: 0.01em;
+    .live-pill {
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:4px 10px;
+      border-radius:999px;
+      background:rgba(246,191,58,0.06);
+      border:1px solid rgba(246,191,58,0.3);
+      font-size:10px;
+      color:var(--warn);
+      text-transform:uppercase;
+      letter-spacing:.13em;
     }
 
-    .brand-note {
-      font-size: 9px;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      color: var(--muted);
+    .live-dot {
+      width:7px;
+      height:7px;
+      border-radius:999px;
+      background:var(--warn);
+      box-shadow:0 0 12px var(--warn);
     }
 
-    .tag {
-      padding: 3px 8px;
-      border-radius: 999px;
-      font-size: 8px;
-      background: #ecfdf5;
-      color: #16a34a;
-      border: 1px solid rgba(22,163,74,0.2);
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      white-space: nowrap;
-    }
-
-    .helper-actions {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      align-items: flex-end;
-      font-size: 8px;
-      color: var(--muted);
-    }
-
-    .helper-row {
-      display: flex;
-      gap: 4px;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-    }
-
-    .chip {
-      padding: 3px 7px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      font-size: 8px;
-      color: var(--muted);
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      cursor: pointer;
-      background: #ffffff;
-    }
-
-    .chip span.icon {
-      font-size: 9px;
-    }
-
-    .chip.active {
-      border-color: var(--accent);
-      background: var(--accent-soft-2);
-      color: var(--accent);
-    }
-
-    /* Headline */
-    .headline {
-      font-size: 17px;
-      font-weight: 600;
-      line-height: 1.3;
-    }
-
-    .subline {
-      font-size: 11px;
-      color: var(--muted);
-      max-width: 520px;
-    }
-
-    .subline strong {
-      color: var(--accent);
-      font-weight: 600;
-    }
-
-    /* Grid layout */
     .grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1.7fr) minmax(0, 1.5fr);
-      gap: 10px;
-      align-items: flex-start;
+      display:grid;
+      grid-template-columns: minmax(0,2.1fr) minmax(260px,1.5fr);
+      gap:22px;
+      align-items:stretch;
     }
 
-    @media (max-width: 720px) {
-      body { padding: 10px 6px 14px; }
-      .shell { padding: 10px 8px 10px; border-radius: 18px; }
-      .grid { grid-template-columns: 1fr; }
+    .hero-title {
+      font-size:26px;
+      line-height:1.25;
+      font-weight:600;
+      margin-bottom:6px;
     }
 
-    .panel {
-      background: var(--panel);
-      border-radius: var(--radius-xl);
-      padding: 10px 9px 9px;
-      border: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      gap: 7px;
-      box-shadow: 0 8px 18px rgba(15,23,42,0.04);
+    .hero-highlight {
+      color:var(--accent);
+      font-weight:600;
     }
 
-    .panel-label {
-      font-size: 8px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      color: var(--muted);
+    .hero-body {
+      font-size:13px;
+      color:var(--muted);
+      max-width:460px;
+      margin-bottom:14px;
     }
 
-    /* Upload zone */
-    .upload-zone {
-      border-radius: 16px;
-      padding: 10px;
-      border: 1px dashed rgba(15,23,42,0.18);
-      background: #f9fdfb;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      cursor: pointer;
-      transition: 0.18s;
-    }
-
-    .upload-zone:hover {
-      border-color: var(--accent);
-      background: #f0fbf5;
-      transform: translateY(-1px);
-      box-shadow: 0 6px 14px rgba(15,23,42,0.06);
-    }
-
-    .upload-label {
-      font-size: 11px;
-      font-weight: 500;
-    }
-
-    .upload-hint {
-      font-size: 9px;
-      color: var(--muted);
+    .cta-row {
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-bottom:12px;
     }
 
     .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 6px 11px;
-      border-radius: 999px;
-      border: none;
-      font-size: 10px;
-      font-weight: 500;
-      gap: 5px;
-      cursor: pointer;
-      white-space: nowrap;
-    }
-
-    .btn-soft {
-      background: var(--accent-soft);
-      color: var(--accent);
+      padding:9px 16px;
+      border-radius:999px;
+      border:1px solid transparent;
+      font-size:12px;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:7px;
+      text-decoration:none;
+      transition:all .22s ease;
+      white-space:nowrap;
     }
 
     .btn-primary {
-      background: var(--accent);
-      color: #ffffff;
-      box-shadow: 0 9px 18px rgba(24,168,105,0.32);
+      background:linear-gradient(90deg, var(--accent), #42e3ff);
+      color:#020403;
+      font-weight:600;
+      box-shadow:0 10px 28px rgba(0,0,0,0.6);
     }
 
-    .btn:disabled {
-      opacity: 0.6;
-      cursor: default;
-      box-shadow: none;
+    .btn-primary:hover {
+      transform:translateY(-1px);
+      box-shadow:0 14px 36px rgba(0,0,0,0.72);
     }
 
-    .preview-wrap {
-      width: 100%;
-      min-height: 110px;
-      border-radius: 14px;
-      background: #f3f4f6;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      margin-top: 4px;
+    .btn-ghost {
+      border-color:var(--border);
+      color:var(--muted);
+      background:rgba(3,6,5,0.88);
     }
 
-    .preview-img {
-      max-width: 100%;
-      max-height: 210px;
-      object-fit: cover;
-      display: none;
+    .btn-ghost span.icon {
+      width:12px;
+      height:12px;
+      border-radius:50%;
+      border:1px solid var(--accent);
+      box-shadow:0 0 10px var(--accent-soft);
     }
 
-    .preview-placeholder {
-      font-size: 9px;
-      color: var(--muted);
-      padding: 8px;
-      text-align: center;
+    .microcopy {
+      font-size:9px;
+      color:var(--muted);
     }
 
-    .status {
-      font-size: 8px;
-      color: var(--muted);
-      min-height: 11px;
+    .steps {
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:8px;
+      font-size:9px;
+      color:var(--muted);
     }
 
-    .status.ok { color: #16a34a; }
-    .status.err { color: var(--danger); }
-
-    /* Results */
-    .result-label {
-      font-size: 8px;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
+    .steps span {
+      padding:4px 8px;
+      border-radius:999px;
+      border:1px solid rgba(245,251,246,0.12);
+      background:rgba(0,0,0,0.38);
     }
 
-    .result-main {
-      font-size: 11px;
-      font-weight: 500;
+    .right-panel {
+      position:relative;
+      padding:14px 12px 10px;
+      border-radius:20px;
+      background:radial-gradient(circle at top, var(--accent-soft), transparent 80%) #050807;
+      border:1px solid rgba(245,251,246,0.12);
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      overflow:hidden;
     }
 
-    .result-list {
-      font-size: 9px;
-      color: var(--muted);
-      padding-left: 14px;
-      margin: 3px 0 0;
+    .rp-label {
+      font-size:9px;
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:.16em;
     }
 
-    /* CTA box */
-    .cta-box {
-      margin-top: 3px;
-      padding: 7px 7px 7px;
-      border-radius: 14px;
-      background: #f9fdfb;
-      border: 1px solid rgba(24,168,105,0.14);
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-      font-size: 8px;
-      color: var(--muted);
+    .rp-title {
+      font-size:13px;
+      font-weight:600;
+      margin-bottom:2px;
     }
 
-    .cta-box strong {
-      color: var(--accent);
-      font-weight: 600;
-      font-size: 8px;
+    .rp-pillrow {
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+      font-size:8px;
     }
 
-    .enroll-form {
-      display: none;
-      flex-direction: column;
-      gap: 4px;
-      margin-top: 4px;
+    .rp-pill {
+      padding:4px 7px;
+      border-radius:999px;
+      border:1px solid rgba(245,251,246,0.12);
+      color:var(--muted);
+      background:rgba(0,0,0,0.72);
     }
 
-    .field-label {
-      font-size: 7px;
-      color: var(--muted);
+    .fake-screen {
+      margin-top:4px;
+      padding:7px;
+      border-radius:12px;
+      background:rgba(0,0,0,0.88);
+      border:1px solid rgba(245,251,246,0.14);
+      display:flex;
+      flex-direction:column;
+      gap:5px;
+      font-size:8px;
+      color:var(--muted);
     }
 
-    .field-input {
-      width: 100%;
-      padding: 5px 7px;
-      border-radius: 9px;
-      border: 1px solid var(--border);
-      font-size: 9px;
-      outline: none;
+    .fake-label {
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      font-size:7px;
+      color:var(--accent);
     }
 
-    .field-input:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 1px rgba(24,168,105,0.14);
+    .fake-row {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:6px;
     }
 
-    .side-note-title {
-      font-size: 9px;
-      font-weight: 600;
-      margin-top: 2px;
+    .fake-tag {
+      padding:2px 6px;
+      border-radius:999px;
+      border:1px solid rgba(245,251,246,0.16);
+      font-size:7px;
     }
 
-    .side-note-text {
-      font-size: 8px;
-      color: var(--muted);
+    .bar-wrap {
+      width:100%;
+      height:5px;
+      border-radius:999px;
+      background:rgba(255,255,255,0.06);
+      overflow:hidden;
     }
 
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      padding: 3px 7px;
-      border-radius: 999px;
-      font-size: 7px;
-      background: #ecfdf5;
-      color: #15803d;
-      margin-top: 3px;
+    .bar-fill {
+      width:68%;
+      height:100%;
+      border-radius:999px;
+      background:linear-gradient(90deg, var(--accent), #42e3ff);
     }
 
-    .link-soft {
-      font-size: 8px;
-      color: #16a34a;
-      text-decoration: underline;
-      cursor: pointer;
-      margin-top: 2px;
-      display: inline-block;
+    .tape {
+      margin-top:9px;
+      padding:4px 0;
+      font-size:8px;
+      text-transform:uppercase;
+      letter-spacing:.16em;
+      background:repeating-linear-gradient(
+        -45deg,
+        rgba(246,191,58,0.16) 0 8px,
+        rgba(246,191,58,0.42) 8px 16px
+      );
+      color:#fdf7e3;
+      text-align:center;
+      border-radius:14px;
+      border:1px solid rgba(0,0,0,0.9);
+      box-shadow:0 8px 22px rgba(0,0,0,0.82);
     }
 
-    /* Overlay (How it works) */
-    .overlay-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(15,23,42,0.35);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 40;
-    }
-
-    .overlay {
-      max-width: 340px;
-      width: calc(100% - 32px);
-      background: #ffffff;
-      border-radius: 18px;
-      padding: 10px 10px 9px;
-      box-shadow: 0 18px 40px rgba(15,23,42,0.32);
-      border: 1px solid var(--border);
-      font-size: 9px;
-      color: var(--muted);
-    }
-
-    .overlay-title {
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--ink);
-      margin-bottom: 4px;
-    }
-
-    .overlay-close {
-      text-align: right;
-      font-size: 9px;
-      color: var(--accent);
-      cursor: pointer;
-      margin-top: 4px;
-    }
-
-    @media (max-width: 480px) {
-      .headline { font-size: 15px; }
-      .subline { font-size: 10px; }
+    @media (max-width:720px) {
+      .shell {
+        padding:20px 14px 16px;
+        border-radius:22px;
+      }
+      .grid {
+        grid-template-columns:1fr;
+      }
+      .hero-title {
+        font-size:22px;
+      }
     }
   </style>
 </head>
 <body>
-<div class="shell">
-  <!-- Top -->
-  <div class="topbar">
-    <div class="brand">
-      <div class="brand-orb"></div>
-      <div class="brand-text">
-        <div class="brand-title">Cardinal Lawn Check</div>
-        <div class="brand-note">Photo-based lawn snapshot • No sales pitch</div>
-      </div>
-    </div>
-    <div class="helper-actions">
-      <div class="tag">Homeowner Mode</div>
-      <div class="helper-row">
-        <div class="chip" id="howItWorks"><span class="icon">?</span> How this works</div>
-        <div class="chip" id="shortcutHint"><span class="icon">★</span> Add to home</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Copy -->
-  <div class="headline">
-    Snap your yard once. We’ll tell you if it looks stressed, hungry, or overworked.
-  </div>
-  <div class="subline">
-    One clear photo, same-day read. If it looks off, you can lock in a
-    <strong>3-photo follow-up</strong> this month for a simple, honest answer.
-  </div>
-
-  <!-- Main grid -->
-  <div class="grid">
-    <!-- LEFT: upload / preview / action -->
-    <div class="panel">
-      <div class="panel-label">Step 1 · Upload your lawn photo</div>
-      <div id="uploadZone" class="upload-zone">
-        <div class="upload-label">Tap to upload a clear yard photo</div>
-        <div class="upload-hint">
-          Fill most of the frame with grass. Daylight if possible. Limit cars, pets, and deep shade.
-        </div>
-        <button id="btnUpload" class="btn btn-soft" type="button">Choose photo</button>
-        <input id="fileInput" type="file" accept="image/*" style="display:none" />
-      </div>
-
-      <div class="preview-wrap">
-        <img id="previewImage" class="preview-img" alt="Lawn preview" />
-        <div id="previewPlaceholder" class="preview-placeholder">
-          Your photo preview shows here so you know we’re reading the right patch of lawn.
+  <main class="shell">
+    <div class="top-row">
+      <div class="brand-lockup">
+        <div class="brand-orb"></div>
+        <div>
+          <div class="brand-text">Cardinal Calculator</div>
         </div>
       </div>
-
-      <button id="btnAnalyze" class="btn btn-primary" type="button" disabled>
-        Analyze my lawn snapshot
-      </button>
-
-      <div id="statusText" class="status"></div>
+      <div class="live-pill">
+        <div class="live-dot"></div>
+        Building in public · alpha
+      </div>
     </div>
 
-    <!-- RIGHT: results / 3-photo / community -->
-    <div class="panel">
-      <div class="panel-label">Step 2 · Today’s snapshot</div>
+    <section class="grid">
+      <!-- LEFT: Copy & CTAs -->
+      <div>
+        <h1 class="hero-title">
+          Upload a yard. <span class="hero-highlight">Watch our AI think.</span><br>
+          You’re early—see the real build.
+        </h1>
+        <p class="hero-body">
+          This isn’t a fake demo. Cardinal’s lawn & landscape brain is being wired in the open.
+          Tap in, break it, send feedback, and help shape the tool that will price, scope, and
+          script the next wave of lawn pros.
+        </p>
 
-      <div class="result-label">What we see from this one photo</div>
-      <div id="resultMain" class="result-main">
-        Upload a photo and we’ll flag visible stress, mowing issues, and water concerns without pushing products.
+        <div class="cta-row">
+          <a href="pro/" class="btn btn-primary">
+            Launch Analyzer
+            <span>↗</span>
+          </a>
+          <a href="pro/docs/" class="btn btn-ghost">
+            <span class="icon"></span>
+            Peek under the hood
+          </a>
+        </div>
+
+        <div class="microcopy">
+          No accounts. No credit card. Alpha signals only. Expect glitches. Tell us where it breaks.
+        </div>
+
+        <div class="steps">
+          <span>① Drop a lawn photo</span>
+          <span>② Get a smart price band</span>
+          <span>③ See risk / upsell signals</span>
+          <span>④ Export, test in real life</span>
+        </div>
       </div>
-      <ul id="resultList" class="result-list">
-        <li>We don’t sell you fertilizer here.</li>
-        <li>No auto-scheduling, no card required.</li>
-        <li>If it looks fine, we’ll tell you it looks fine.</li>
-      </ul>
 
-      <div class="cta-box">
-        <strong>Want a real answer, not a hunch?</strong>
-        One snapshot is a hint, not a diagnosis.
-        Lock in a <strong>3-photo monthly check</strong>: one photo today,
-        two more over the next few weeks.
-        We track color, density, and stress patterns and send a short, readable report.
-        <button id="btnEnroll" class="btn btn-soft" type="button">
-          Lock in my 3-photo check
-        </button>
-      </div>
+      <!-- RIGHT: Fake analyzer preview & tape -->
+      <aside class="right-panel">
+        <div>
+          <div class="rp-label">Live Preview</div>
+          <div class="rp-title">Cardinal Lawn Intelligence v0.1</div>
+          <div class="rp-pillrow">
+            <div class="rp-pill">Vision on</div>
+            <div class="rp-pill">Price band bias: Fair</div>
+            <div class="rp-pill">Risk lens: Enabled</div>
+            <div class="rp-pill">Upsell coach: Teasing</div>
+          </div>
+        </div>
 
-      <div id="enrollForm" class="enroll-form">
-        <div class="field-label">Best email for your report</div>
-        <input id="enrollEmail" class="field-input" type="email" placeholder="you@example.com" />
-        <div class="field-label">City or ZIP (so we match your climate)</div>
-        <input id="enrollArea" class="field-input" type="text" placeholder="City or ZIP" />
-        <button id="btnEnrollSubmit" class="btn btn-primary" type="button">
-          Start my 3-photo check
-        </button>
-        <div id="enrollStatus" class="status"></div>
-      </div>
+        <div class="fake-screen">
+          <div class="fake-label">Sample Read</div>
+          <div class="fake-row">
+            <span>Backyard • 9,800 sq ft • Mixed health</span>
+            <span class="fake-tag">Alpha Output</span>
+          </div>
+          <div class="fake-row">
+            <span>Suggested band:</span>
+            <strong>$145 – $190</strong>
+          </div>
+          <div class="fake-row">
+            <span>Risk (callbacks / complaints)</span>
+            <span>32%</span>
+          </div>
+          <div class="bar-wrap">
+            <div class="bar-fill"></div>
+          </div>
+          <div class="fake-row">
+            <span>Upsell window</span>
+            <span>Core aeration • Bed edge • Weed control</span>
+          </div>
+        </div>
 
-      <div class="side-note-title">Community & tools beta</div>
-      <div class="side-note-text">
-        We’re building a small, calm space for homeowners to compare lawn photos,
-        get simple tips, and test tools like:
-      </div>
-      <ul class="result-list">
-        <li>Smart mow height cheatsheets.</li>
-        <li>Watering nudges based on your photo + climate.</li>
-        <li>Spread charts that don’t assume a perfect rectangle.</li>
-      </ul>
-      <div class="pill">No pro portal. Just lawn people.</div>
-      <a href="./community/index.html" class="link-soft">
-        Enter community & tools beta →
-      </a>
-    </div>
-  </div>
-</div>
-
-<!-- HOW IT WORKS OVERLAY -->
-<div id="overlayBackdrop" class="overlay-backdrop">
-  <div class="overlay">
-    <div class="overlay-title">How Cardinal Lawn Check works</div>
-    <ul>
-      <li>You upload one clear, daytime photo of your lawn.</li>
-      <li>Our system (backed by OpenAI + our own rules) reads color and texture cues.</li>
-      <li>We highlight stress signals and habits to watch — no product pitches.</li>
-      <li>If you choose the 3-photo check, we compare over time for a cleaner answer.</li>
-      <li>Your photo + email are not sold. This tool is for guidance, not spam.</li>
-    </ul>
-    <div id="overlayClose" class="overlay-close">Got it</div>
-  </div>
-</div>
-
-<script>
-  // ===== CONFIG =====
-  const CONFIG = {
-    API_BASE: "https://cardinalcalculator-backend.onrender.com",
-    ROUTES: {
-      analyze: "/analyze",
-      email: "/email"
-    }
-  };
-
-  // ===== DOM LOOKUP =====
-  const el = {
-    uploadZone: document.getElementById("uploadZone"),
-    btnUpload: document.getElementById("btnUpload"),
-    fileInput: document.getElementById("fileInput"),
-    previewImage: document.getElementById("previewImage"),
-    previewPlaceholder: document.getElementById("previewPlaceholder"),
-    btnAnalyze: document.getElementById("btnAnalyze"),
-    statusText: document.getElementById("statusText"),
-    resultMain: document.getElementById("resultMain"),
-    resultList: document.getElementById("resultList"),
-    btnEnroll: document.getElementById("btnEnroll"),
-    enrollForm: document.getElementById("enrollForm"),
-    enrollEmail: document.getElementById("enrollEmail"),
-    enrollArea: document.getElementById("enrollArea"),
-    btnEnrollSubmit: document.getElementById("btnEnrollSubmit"),
-    enrollStatus: document.getElementById("enrollStatus"),
-    howItWorks: document.getElementById("howItWorks"),
-    shortcutHint: document.getElementById("shortcutHint"),
-    overlayBackdrop: document.getElementById("overlayBackdrop"),
-    overlayClose: document.getElementById("overlayClose")
-  };
-
-  let selectedFile = null;
-  let lastAnalysis = null;
-
-  // ===== OVERLAY: HOW IT WORKS =====
-  if (el.howItWorks && el.overlayBackdrop && el.overlayClose) {
-    el.howItWorks.addEventListener("click", () => {
-      el.overlayBackdrop.style.display = "flex";
-      el.howItWorks.classList.add("active");
-    });
-    el.overlayClose.addEventListener("click", () => {
-      el.overlayBackdrop.style.display = "none";
-      el.howItWorks.classList.remove("active");
-    });
-    el.overlayBackdrop.addEventListener("click", (e) => {
-      if (e.target === el.overlayBackdrop) {
-        el.overlayBackdrop.style.display = "none";
-        el.howItWorks.classList.remove("active");
-      }
-    });
-  }
-
-  // ===== SHORTCUT HINT =====
-  if (el.shortcutHint) {
-    el.shortcutHint.addEventListener("click", () => {
-      alert(
-        "To keep this handy like an app: open this page in your mobile browser, " +
-        "use the share/menu button, and choose “Add to Home Screen”."
-      );
-    });
-  }
-
-  // ===== UPLOAD WIRING =====
-  if (el.uploadZone && el.fileInput && el.btnUpload) {
-    el.uploadZone.addEventListener("click", () => el.fileInput.click());
-    el.btnUpload.addEventListener("click", () => el.fileInput.click());
-
-    el.fileInput.addEventListener("change", () => {
-      const file = el.fileInput.files[0];
-      if (!file) return;
-      selectedFile = file;
-
-      const url = URL.createObjectURL(file);
-      el.previewImage.src = url;
-      el.previewImage.style.display = "block";
-      el.previewPlaceholder.style.display = "none";
-
-      el.btnAnalyze.disabled = false;
-      el.statusText.textContent = "Photo loaded. Tap “Analyze my lawn snapshot”.";
-      el.statusText.className = "status";
-    });
-  }
-
-  // ===== ANALYZE (HOMEOWNER_LAWN MODE) =====
-  if (el.btnAnalyze) {
-    el.btnAnalyze.addEventListener("click", () => {
-      if (!selectedFile) {
-        alert("Upload a yard photo first.");
-        return;
-      }
-
-      const formData = new FormData();
-      formData.append("file", selectedFile);
-      formData.append("mode", "homeowner_lawn");
-      formData.append("source", "home_lawn");
-
-      el.btnAnalyze.disabled = true;
-      el.btnAnalyze.textContent = "Analyzing…";
-      el.statusText.textContent = "Reading color and texture for stress signals…";
-      el.statusText.className = "status";
-
-      fetch(CONFIG.API_BASE + CONFIG.ROUTES.analyze, {
-        method: "POST",
-        body: formData
-      })
-        .then((resp) => {
-          if (!resp.ok) throw new Error("Server error: " + resp.status);
-          return resp.json();
-        })
-        .then((data) => {
-          lastAnalysis = data || {};
-
-          const summaryRaw = (data.summary || "").trim();
-          const summary =
-            summaryRaw ||
-            "Snapshot read complete. No major red flags visible in this single photo.";
-
-          el.resultMain.textContent = summary;
-
-          // Build soft guidance bullets from summary text
-          const bullets = [];
-          const t = summary.toLowerCase();
-
-          if (t.includes("dry") || t.includes("drought") || t.includes("wilt")) {
-            bullets.push("Looks a bit dry in spots. Check coverage and timing on your watering.");
-          }
-          if (t.includes("overwater") || t.includes("soggy") || t.includes("mushy")) {
-            bullets.push("Some areas may be overwatered. Let them breathe before adding more.");
-          }
-          if (t.includes("thin") || t.includes("bare") || t.includes("patch")) {
-            bullets.push("Thin or patchy areas show up—light overseed and patience usually beat heavy products.");
-          }
-          if (t.includes("scalp") || t.includes("short")) {
-            bullets.push("Mower looks a little low. Bump it up one notch to reduce stress.");
-          }
-
-          if (!bullets.length) {
-            bullets.push("No severe issues jump out from this snapshot.");
-            bullets.push("A 3-photo check will confirm if it’s holding up or starting to slip.");
-          }
-
-          el.resultList.innerHTML = "";
-          bullets.slice(0, 4).forEach((b) => {
-            const li = document.createElement("li");
-            li.textContent = b;
-            el.resultList.appendChild(li);
-          });
-
-          el.statusText.textContent =
-            "Snapshot ready. If you want a solid answer, start the 3-photo check below.";
-          el.statusText.className = "status ok";
-        })
-        .catch((err) => {
-          console.error("Analyze error:", err);
-          el.statusText.textContent =
-            "Analysis failed. Try again with a well-lit photo where grass fills most of the frame.";
-          el.statusText.className = "status err";
-        })
-        .finally(() => {
-          el.btnAnalyze.disabled = false;
-          el.btnAnalyze.textContent = "Analyze my lawn snapshot";
-        });
-    });
-  }
-
-  // ===== ENROLL: 3-PHOTO CHECK =====
-  if (el.btnEnroll && el.enrollForm) {
-    el.btnEnroll.addEventListener("click", () => {
-      el.enrollForm.style.display = "flex";
-      el.btnEnroll.style.display = "none";
-    });
-  }
-
-  if (el.btnEnrollSubmit && el.enrollEmail && el.enrollArea && el.enrollStatus) {
-    el.btnEnrollSubmit.addEventListener("click", () => {
-      const email = el.enrollEmail.value.trim();
-      const area = el.enrollArea.value.trim();
-
-      if (!email) {
-        el.enrollStatus.textContent = "Add an email so we can send your notes.";
-        el.enrollStatus.className = "status err";
-        return;
-      }
-
-      el.btnEnrollSubmit.disabled = true;
-      el.enrollStatus.textContent = "Locking in your 3-photo check…";
-      el.enrollStatus.className = "status";
-
-      const payload = {
-        email,
-        role: "homeowner-lawn",
-        area,
-        mode: "grass_health_3photo",
-        firstSummary:
-          lastAnalysis && lastAnalysis.summary
-            ? String(lastAnalysis.summary).slice(0, 400)
-            : null
-      };
-
-      fetch(CONFIG.API_BASE + CONFIG.ROUTES.email, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      })
-        .then((resp) => {
-          if (!resp.ok) throw new Error("Enroll error: " + resp.status);
-          return resp.json().catch(() => ({}));
-        })
-        .then(() => {
-          el.enrollStatus.textContent =
-            "You’re in. We’ll guide your next 2 photos and send a clean summary.";
-          el.enrollStatus.className = "status ok";
-        })
-        .catch((err) => {
-          console.error(err);
-          el.enrollStatus.textContent =
-            "We couldn’t save that just now. You can retry or message us and we’ll add you manually.";
-          el.enrollStatus.className = "status err";
-        })
-        .finally(() => {
-          el.btnEnrollSubmit.disabled = false;
-        });
-    });
-  }
-</script>
+        <div class="tape">
+          UNDER CONSTRUCTION · YOU ARE LITERALLY WATCHING THE REAL BUILD · NOT MARKETING FOOTAGE
+        </div>
+      </aside>
+    </section>
+  </main>
 </body>
 </html>
