@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  />
+  <title>Cardinal Pro • Sales University</title>
+  <meta name="theme-color" content="#f5f7f6" />
+  <style>
+    :root {
+      --bg: #f5f7f6;
+      --shell: #ffffff;
+      --border-soft: rgba(10, 28, 22, 0.08);
+      --border-strong: rgba(10, 28, 22, 0.14);
+      --accent: #19b37a;         /* mint/green */
+      --accent-soft: rgba(25, 179, 122, 0.08);
+      --accent-alt: #1c9ad6;     /* aqua edge */
+      --cardinal: #c43633;       /* subtle red accent */
+      --text-main: #111817;
+      --text-soft: rgba(17, 24, 23, 0.72);
+      --font: system-ui, -apple-system, BlinkMacSystemFont, -system-ui,
+        sans-serif;
+      --radius-xl: 24px;
+      --radius-md: 16px;
+      --shadow-soft: 0 14px 40px rgba(15, 28, 24, 0.14);
+      --transition-fast: 0.22s ease;
+      --transition-med: 0.34s ease;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--font);
+      background:
+        radial-gradient(circle at top, rgba(25, 179, 122, 0.03), transparent),
+        radial-gradient(circle at bottom, rgba(28, 154, 214, 0.02), transparent),
+        var(--bg);
+      color: var(--text-main);
+      display: flex;
+      min-height: 100vh;
+      padding: 10px;
+    }
+
+    .shell {
+      margin: auto;
+      width: 100%;
+      max-width: 1120px;
+      background-color: var(--shell);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border-soft);
+      box-shadow: var(--shadow-soft);
+      padding: 14px 14px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      position: relative;
+      overflow: hidden;
+      transition: all var(--transition-med);
+    }
+
+    .shell.fullscreen {
+      max-width: 100%;
+      height: calc(100vh - 20px);
+    }
+
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 10px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      text-decoration: none;
+      color: var(--text-soft);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .back-link span.icon {
+      font-size: 11px;
+    }
+
+    .back-link:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateX(-1px);
+    }
+
+    .toggles {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+
+    .pill-toggle {
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      font-size: 9px;
+      color: var(--text-soft);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      background: #fff;
+      transition: all var(--transition-fast);
+    }
+
+    .pill-toggle span.dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--accent);
+    }
+
+    .pill-toggle.active {
+      border-color: var(--accent);
+      color: var(--accent);
+      box-shadow: 0 4px 10px rgba(25, 179, 122, 0.16);
+    }
+
+    .header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .title-block {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .eyebrow {
+      font-size: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--accent);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 17px;
+      font-weight: 600;
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+
+    h1 span.sub {
+      font-size: 10px;
+      font-weight: 400;
+      color: var(--text-soft);
+    }
+
+    .header-note {
+      font-size: 9px;
+      color: var(--text-soft);
+    }
+
+    .badge-row {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+      margin-top: 2px;
+    }
+
+    .badge {
+      padding: 2px 6px;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      font-size: 7.5px;
+      color: var(--text-soft);
+    }
+
+    .badge.strong {
+      border-color: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.9fr) minmax(220px, 1.1fr);
+      gap: 10px;
+      align-items: stretch;
+      margin-top: 2px;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .panel {
+      background: #ffffff;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-soft);
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      position: relative;
+      min-height: 0;
+    }
+
+    .panel h2 {
+      margin: 0;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--text-soft);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .panel h2 span.line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(
+        to right,
+        rgba(17,24,23,0.15),
+        transparent
+      );
+    }
+
+    /* Book grid */
+
+    .book-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .book {
+      padding: 6px 6px 5px;
+      border-radius: 10px;
+      border: 1px solid var(--border-soft);
+      background: linear-gradient(
+        135deg,
+        rgba(25, 179, 122, 0.03),
+        rgba(255, 255, 255, 1)
+      );
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      font-size: 8px;
+      position: relative;
+    }
+
+    .book::before {
+      content: "";
+      position: absolute;
+      left: 3px;
+      top: 3px;
+      bottom: 3px;
+      width: 2px;
+      border-radius: 999px;
+      background: linear-gradient(
+        to bottom,
+        var(--accent),
+        var(--accent-alt)
+      );
+      opacity: 0.7;
+    }
+
+    .book-title {
+      font-size: 8.5px;
+      font-weight: 600;
+      padding-left: 7px;
+      color: var(--text-main);
+    }
+
+    .book-label {
+      padding-left: 7px;
+      font-size: 7px;
+      color: var(--text-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+    }
+
+    .book-note {
+      padding-left: 7px;
+      font-size: 7.5px;
+      color: var(--text-soft);
+    }
+
+    .book:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(15, 28, 24, 0.14);
+      border-color: var(--accent-soft);
+    }
+
+    .book.active {
+      border-color: var(--accent);
+      box-shadow: 0 6px 16px rgba(25, 179, 122, 0.18);
+    }
+
+    /* Lesson viewer */
+
+    .lesson-viewer {
+      margin-top: 6px;
+      padding: 7px;
+      border-radius: 10px;
+      background: #fafdfb;
+      border: 1px solid rgba(10, 28, 22, 0.06);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-height: 80px;
+      max-height: 180px;
+      overflow-y: auto;
+    }
+
+    .lesson-title {
+      font-size: 9px;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    .lesson-body {
+      font-size: 8px;
+      color: var(--text-soft);
+      line-height: 1.6;
+      white-space: pre-line;
+    }
+
+    /* Right panel (paywall + hooks) */
+
+    .price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+
+    .price {
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    .term {
+      font-size: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--text-soft);
+    }
+
+    .access-label {
+      font-size: 7.5px;
+      color: var(--text-soft);
+      margin-top: 1px;
+    }
+
+    .pay-copy {
+      font-size: 8px;
+      color: var(--text-soft);
+      margin-top: 3px;
+    }
+
+    .cta-btn {
+      margin-top: 6px;
+      width: 100%;
+      padding: 6px 8px;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(
+        90deg,
+        var(--accent),
+        var(--accent-alt)
+      );
+      color: #ffffff;
+      font-size: 8.5px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(15, 28, 24, 0.24);
+      transition: all var(--transition-fast);
+    }
+
+    .cta-btn span.icon {
+      font-size: 10px;
+    }
+
+    .cta-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 26px rgba(15, 28, 24, 0.3);
+    }
+
+    .mini-hooks {
+      margin-top: 5px;
+      font-size: 7.5px;
+      color: var(--text-soft);
+      display: grid;
+      gap: 2px;
+    }
+
+    .mini-hooks span {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .mini-hooks span i {
+      width: 7px;
+      height: 7px;
+      border-radius: 3px;
+      border: 1px solid var(--accent-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 7px;
+      color: var(--accent);
+    }
+
+    .footnote {
+      margin-top: 4px;
+      font-size: 7px;
+      color: rgba(17, 24, 23, 0.5);
+    }
+
+    /* AI helper bubble */
+
+    .ai-bubble {
+      position: absolute;
+      right: 10px;
+      bottom: 8px;
+      max-width: 210px;
+      padding: 6px 7px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.96);
+      border: 1px solid var(--border-soft);
+      box-shadow: 0 8px 18px rgba(15, 28, 24, 0.16);
+      font-size: 7.5px;
+      color: var(--text-soft);
+      display: flex;
+      align-items: flex-start;
+      gap: 5px;
+      transform: translateY(0);
+      opacity: 1;
+      transition: all var(--transition-med);
+      z-index: 8;
+    }
+
+    .ai-bubble.hidden {
+      opacity: 0;
+      transform: translateY(10px);
+      pointer-events: none;
+    }
+
+    .ai-badge {
+      width: 14px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 0%, #ffffff, var(--accent));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 8px;
+      color: #ffffff;
+      flex-shrink: 0;
+    }
+
+    .ai-close {
+      margin-left: auto;
+      cursor: pointer;
+      font-size: 8px;
+      color: var(--text-soft);
+    }
+
+    /* Paywall Overlay */
+
+    .paywall-overlay {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at top, rgba(255,255,255,0.9), transparent),
+        rgba(245, 247, 246, 0.98);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 20;
+      opacity: 1;
+      transition: opacity var(--transition-med);
+    }
+
+    .paywall-overlay.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .paywall-card {
+      width: 100%;
+      max-width: 420px;
+      padding: 14px 12px 10px;
+      border-radius: 20px;
+      background: #ffffff;
+      border: 1px solid var(--border-strong);
+      box-shadow: 0 14px 40px rgba(15, 28, 24, 0.24);
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      position: relative;
+      font-size: 8px;
+    }
+
+    .paywall-close {
+      position: absolute;
+      top: 6px;
+      right: 7px;
+      width: 16px;
+      height: 16px;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      color: var(--text-soft);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      background: #ffffff;
+    }
+
+    .paywall-close:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    .paywall-label {
+      font-size: 7px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--accent);
+    }
+
+    .paywall-title {
+      font-size: 12px;
+      font-weight: 600;
+      margin-top: 1px;
+      color: var(--text-main);
+    }
+
+    .paywall-sub {
+      font-size: 8px;
+      color: var(--text-soft);
+      line-height: 1.6;
+    }
+
+    .paywall-price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 5px;
+      margin-top: 4px;
+    }
+
+    .paywall-price {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    .paywall-term {
+      font-size: 7px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--text-soft);
+    }
+
+    .paywall-btn {
+      margin-top: 6px;
+      padding: 6px 8px;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(
+        90deg,
+        var(--accent),
+        var(--accent-alt)
+      );
+      color: #ffffff;
+      font-size: 8.5px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      cursor: pointer;
+      box-shadow: 0 10px 26px rgba(15, 28, 24, 0.28);
+      transition: all var(--transition-fast);
+    }
+
+    .paywall-btn span.icon {
+      font-size: 10px;
+    }
+
+    .paywall-foot {
+      margin-top: 4px;
+      font-size: 7px;
+      color: rgba(17,24,23,0.58);
+    }
+
+    /* Night mode */
+
+    body.night {
+      background:
+        radial-gradient(circle at top, rgba(25,179,122,0.06), transparent),
+        #050708;
+      color: #f4f8f6;
+    }
+
+    body.night .shell {
+      background: #0b1010;
+      border-color: rgba(255,255,255,0.06);
+      box-shadow: 0 18px 48px rgba(0,0,0,0.5);
+    }
+
+    body.night .panel,
+    body.night .lesson-viewer {
+      background: #0f1514;
+      border-color: rgba(255,255,255,0.06);
+      color: #f4f8f6;
+    }
+
+    body.night .book {
+      background: linear-gradient(
+        135deg,
+        rgba(25,179,122,0.12),
+        #121817
+      );
+      color: #f4f8f6;
+    }
+
+    body.night .ai-bubble {
+      background: rgba(6,9,9,0.98);
+      color: #dbe7e2;
+      border-color: rgba(255,255,255,0.08);
+    }
+
+    body.night .paywall-card {
+      background: #050708;
+      color: #f4f8f6;
+    }
+
+    /* Mobile */
+
+    @media (max-width: 768px) {
+      body {
+        padding: 6px;
+      }
+      .shell {
+        border-radius: 18px;
+        padding: 10px 8px 8px;
+      }
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      .book-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .lesson-viewer {
+        max-height: 160px;
+      }
+      .ai-bubble {
+        right: 6px;
+        bottom: 6px;
+        max-width: 70%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell" id="shell">
+    <div class="top-bar">
+      <a href="../index.html" class="back-link">
+        <span class="icon">←</span>
+        <span>Back to Pro Cockpit</span>
+      </a>
+      <div class="toggles">
+        <div class="pill-toggle" id="fullscreenToggle">
+          ⤢ Full Screen
+        </div>
+        <div class="pill-toggle" id="nightToggle">
+          <span class="dot"></span> Night
+        </div>
+        <div class="pill-toggle" id="langToggle">
+          EN / ES
+        </div>
+      </div>
+    </div>
+
+    <div class="header">
+      <div class="title-block">
+        <div class="eyebrow">Cardinal Pro • Sales University</div>
+        <h1>
+          Precision Yard Sales
+          <span class="sub">Tight scripts. Clean closes. No hype.</span>
+        </h1>
+        <div class="header-note">
+          A focused, two-week sprint for crews who want to quote fast,
+          talk straight, and protect margin without feeling like a
+          salesman.
+        </div>
+        <div class="badge-row">
+          <div class="badge strong">For working landscapers only</div>
+          <div class="badge">Rep-facing only &mdash; never shown to customers</div>
+          <div class="badge">Plug into your estimates &amp; call sheets</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <!-- LEFT: Books + Lesson Viewer -->
+      <div class="panel">
+        <h2>
+          Curriculum Books
+          <span class="line"></span>
+        </h2>
+
+        <div class="book-grid" id="bookGrid">
+          <div
+            class="book active"
+            data-title="Day 1: Working the Block Without Being Weird"
+            data-body="• How to open when you’re already on the street.\n• One line that explains who you are, what you’re doing, and why you knocked.\n• How to respect time, dogs, kids, and driveways.\n• Micro body language: where you stand, where your eyes go.\n\nGoal: Sound like the neighbor with tools, not a door-to-door script robot."
+          >
+            <div class="book-label">Core Openers</div>
+            <div class="book-title">Block Approach 101</div>
+            <div class="book-note">Script + cadence for same-street leads.</div>
+          </div>
+
+          <div
+            class="book"
+            data-title="Day 3: Price With Backbone"
+            data-body="• Fast frameworks for small, medium, heavy work.\n• How to say the number without flinching.\n• When to hold, when to bundle, when to walk.\n• Anchor ranges so the cheap jobs don’t eat your week.\n\nGoal: No apologizing for clean, fair, profitable work."
+          >
+            <div class="book-label">Pricing</div>
+            <div class="book-title">No-Excuse Numbers</div>
+            <div class="book-note">Protect margin without sounding stiff.</div>
+          </div>
+
+          <div
+            class="book"
+            data-title="Day 5: Upsell Without Feeling Slimy"
+            data-body="• Read the property in 10 seconds.\n• Offer one focused upgrade, not a grocery list.\n• Tie add-ons to what already bothers them.\n• Set up recurring without pressure.\n\nGoal: Every yard leaves better than you found it, and the ticket makes sense."
+          >
+            <div class="book-label">Upsells</div>
+            <div class="book-title">1 Clean Add-On</div>
+            <div class="book-note">Simple, honest upgrades that stick.</div>
+          </div>
+
+          <div
+            class="book"
+            data-title="Day 7: Handling Pushback in 20 Seconds"
+            data-body="• Short answers for: 'Too much', 'I need to think', 'We’re getting other quotes.'\n• Keep respect, keep pace, keep your hat on.\n• When to leave a tight written option they can’t misread.\n\nGoal: You stay calm, clear, and move to the next yard."
+          >
+            <div class="book-label">Objections</div>
+            <div class="book-title">20-Second Handles</div>
+            <div class="book-note">No debate, just clarity.</div>
+          </div>
+
+          <div
+            class="book"
+            data-title="Day 9: Phone & Text Follow-Up"
+            data-body="• Templates that sound like a person, not a blast.\n• How to follow up once, twice, done.\n• Drop a picture, 1 line, 1 button.\n\nGoal: Stay in their phone without becoming spam."
+          >
+            <div class="book-label">Follow-Up</div>
+            <div class="book-title">Pocket Follow-Ups</div>
+            <div class="book-note">For estimates you don’t want to lose.</div>
+          </div>
+
+          <div
+            class="book"
+            data-title="Day 12: Crew-Level Confidence"
+            data-body="• Give every helper a simple talk track.\n• What they can say, what only you say.\n• Turn the quiet guy into the one who can explain the work.\n\nGoal: Whole crew can represent the brand without over-talking."
+          >
+            <div class="book-label">Team</div>
+            <div class="book-title">Crew Scripts</div>
+            <div class="book-note">Everyone on the same page.</div>
+          </div>
+        </div>
+
+        <div class="lesson-viewer">
+          <div class="lesson-title" id="lessonTitle">
+            Day 1: Working the Block Without Being Weird
+          </div>
+          <div class="lesson-body" id="lessonBody">
+            • How to open when you’re already on the street.
+            • One line that explains who you are, what you’re doing, and why you knocked.
+            • How to respect time, dogs, kids, and driveways.
+            • Micro body language: where you stand, where your eyes go.
+
+            Goal: Sound like the neighbor with tools, not a door-to-door script robot.
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Paywall look + hooks -->
+      <div class="panel">
+        <h2>
+          Program Access
+          <span class="line"></span>
+        </h2>
+        <div class="price-row">
+          <div class="price">$109</div>
+          <div class="term">2-week focused program</div>
+        </div>
+        <div class="access-label">
+          One login per crew. Instant lifetime access to this version.
+        </div>
+        <div class="pay-copy">
+          Built for real landscapers: short lessons, field-ready scripts,
+          plug-and-play lines you can drop straight into your estimates,
+          call sheets, and internal playbooks. No fluff. No guru talk.
+        </div>
+
+        <button class="cta-btn" id="unlockBtn">
+          <span>Preview curriculum</span>
+          <span class="icon">↗</span>
+        </button>
+
+        <div class="mini-hooks">
+          <span>
+            <i>✓</i>
+            Attach scripts to your estimate tool (rep-only view).
+          </span>
+          <span>
+            <i>✓</i>
+            Overlay talking points on your call sheets &amp; job notes.
+          </span>
+          <span>
+            <i>✓</i>
+            Keep customer-facing invoices clean; training stays behind the glass.
+          </span>
+        </div>
+
+        <div class="footnote">
+          No customer ever sees this portal. This is your quiet edge:
+          same crew, same truck, sharper words.
+        </div>
+      </div>
+    </div>
+
+    <!-- AI helper bubble (demo only) -->
+    <div class="ai-bubble" id="aiBubble">
+      <div class="ai-badge">AI</div>
+      <div>
+        Soon, each lesson here can auto-generate talk tracks matched to your
+        tickets, neighborhoods, and photos. Tonight this is a demo view,
+        but structure is ready for the switch.
+      </div>
+      <div class="ai-close" id="aiClose">✕</div>
+    </div>
+
+    <!-- Paywall overlay (fake gate, closable) -->
+    <div class="paywall-overlay" id="paywallOverlay">
+      <div class="paywall-card">
+        <div class="paywall-close" id="paywallClose">✕</div>
+        <div class="paywall-label">Founders Launch Rate</div>
+        <div class="paywall-title">Cardinal Sales University (Crew Edition)</div>
+        <div class="paywall-sub">
+          Two weeks. Tight playbook. You keep your voice, we clean up the edges.
+          This is for crews who want better tickets without turning into cartoon
+          closers. Everything lives behind the scenes on your Pro tools.
+        </div>
+        <div class="paywall-price-row">
+          <div class="paywall-price">$109</div>
+          <div class="paywall-term">one-time / per crew</div>
+        </div>
+        <button class="paywall-btn" id="paywallUnlock">
+          <span>Unlock Demo View</span>
+          <span class="icon">↗</span>
+        </button>
+        <div class="paywall-foot">
+          No card required for this preview. This gate is here so visitors feel
+          the value. You can flip it live when you’re ready.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Elements
+    const shell = document.getElementById("shell");
+    const nightToggle = document.getElementById("nightToggle");
+    const fullscreenToggle = document.getElementById("fullscreenToggle");
+    const langToggle = document.getElementById("langToggle");
+    const aiBubble = document.getElementById("aiBubble");
+    const aiClose = document.getElementById("aiClose");
+    const paywallOverlay = document.getElementById("paywallOverlay");
+    const paywallClose = document.getElementById("paywallClose");
+    const paywallUnlock = document.getElementById("paywallUnlock");
+    const unlockBtn = document.getElementById("unlockBtn");
+    const bookGrid = document.getElementById("bookGrid");
+    const lessonTitle = document.getElementById("lessonTitle");
+    const lessonBody = document.getElementById("lessonBody");
+
+    // Night mode toggle
+    nightToggle.addEventListener("click", () => {
+      const on = document.body.classList.toggle("night");
+      nightToggle.classList.toggle("active", on);
+    });
+
+    // Fullscreen toggle
+    fullscreenToggle.addEventListener("click", () => {
+      const on = shell.classList.toggle("fullscreen");
+      fullscreenToggle.classList.toggle("active", on);
+    });
+
+    // Language toggle (simple demo: just toggles label & one line)
+    let lang = "en";
+    langToggle.addEventListener("click", () => {
+      lang = lang === "en" ? "es" : "en";
+      langToggle.classList.toggle("active", lang === "es");
+      if (lang === "es") {
+        langToggle.textContent = "ES / EN";
+      } else {
+        langToggle.textContent = "EN / ES";
+      }
+      // (You can expand this later to swap all copy.)
+    });
+
+    // AI bubble close
+    aiClose.addEventListener("click", () => {
+      aiBubble.classList.add("hidden");
+    });
+
+    // Auto slide-away of AI bubble after a bit (demo)
+    setTimeout(() => {
+      aiBubble.classList.add("hidden");
+    }, 12000);
+
+    // Paywall controls
+    function hidePaywall() {
+      paywallOverlay.classList.add("hidden");
+    }
+
+    paywallClose.addEventListener("click", hidePaywall);
+    paywallUnlock.addEventListener("click", hidePaywall);
+    unlockBtn.addEventListener("click", hidePaywall);
+
+    // Book click -> load lesson
+    bookGrid.addEventListener("click", (e) => {
+      const book = e.target.closest(".book");
+      if (!book) return;
+
+      document.querySelectorAll(".book").forEach(b => b.classList.remove("active"));
+      book.classList.add("active");
+
+      const title = book.getAttribute("data-title") || "";
+      const body = book.getAttribute("data-body") || "";
+
+      lessonTitle.textContent = title;
+      lessonBody.textContent = body;
+    });
+  </script>
+</body>
+</html>

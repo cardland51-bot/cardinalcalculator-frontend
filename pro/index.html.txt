@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Cardinal Garage • Pro Deck</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f5f5f7;
+      --bg-soft: #ffffff;
+      --ink: #111827;
+      --muted: #6b7280;
+      --accent: #c41e3a;
+      --accent-soft: rgba(196,30,58,0.08);
+      --border: rgba(15,23,42,0.08);
+      --radius-xl: 22px;
+      --shadow-soft: 0 14px 40px rgba(15,23,42,0.12);
+      --font: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    /* Night mode */
+    body.night {
+      --bg: #020817;
+      --bg-soft: #020817;
+      --ink: #e5e7eb;
+      --muted: #9ca3af;
+      --accent: #f97316;
+      --accent-soft: rgba(249,115,22,0.15);
+      --border: rgba(148,163,253,0.22);
+      --shadow-soft: 0 20px 50px rgba(0,0,0,0.9);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 14px 10px 20px;
+    }
+
+    .shell {
+      width: 100%;
+      max-width: 1100px;
+      background: var(--bg-soft);
+      border-radius: 26px;
+      box-shadow: var(--shadow-soft);
+      padding: 14px 14px 14px;
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* Header */
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .brand-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .brand-row {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+
+    .brand-orb {
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #f97316, #991b1b);
+      box-shadow: 0 0 14px rgba(153,27,27,0.35);
+    }
+
+    .brand-title {
+      font-size: 1.2rem;
+      font-weight: 800;
+    }
+
+    .brand-pill {
+      font-size: 0.55rem;
+      padding: 2px 7px;
+      border-radius: 999px;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+    }
+
+    .brand-sub {
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    .controls {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      align-items: flex-end;
+      font-size: 0.6rem;
+      color: var(--muted);
+    }
+
+    .control-row {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .chip {
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      font-size: 0.55rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: transparent;
+      color: var(--muted);
+    }
+
+    .chip span.icon {
+      font-size: 0.65rem;
+    }
+
+    .chip.active {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    /* Layout */
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.7fr) minmax(0, 1.3fr);
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    @media (max-width: 800px) {
+      body { padding: 10px 6px 14px; }
+      .shell { padding: 10px 8px 10px; border-radius: 18px; }
+      .layout { grid-template-columns: 1fr; }
+    }
+
+    /* Cards */
+    .card {
+      background: rgba(255,255,255,0.98);
+      border-radius: var(--radius-xl);
+      padding: 10px 9px 9px;
+      border: 1px solid var(--border);
+      box-shadow: 0 8px 18px rgba(15,23,42,0.06);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    body.night .card {
+      background: #020817;
+      box-shadow: 0 14px 40px rgba(0,0,0,0.85);
+    }
+
+    .label {
+      font-size: 0.58rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .hero-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .hero-sub {
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    /* Upload */
+    .upload-zone {
+      margin-top: 4px;
+      padding: 10px;
+      border-radius: 16px;
+      border: 1px dashed rgba(15,23,42,0.22);
+      background: #f9fafb;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      transition: 0.16s;
+    }
+
+    body.night .upload-zone {
+      background: #020817;
+      border-color: rgba(148,163,253,0.35);
+    }
+
+    .upload-zone:hover {
+      border-color: var(--accent);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+      transform: translateY(-1px);
+    }
+
+    .upload-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+    }
+
+    .upload-hint {
+      font-size: 0.62rem;
+      color: var(--muted);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: none;
+      font-size: 0.7rem;
+      font-weight: 600;
+      cursor: pointer;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .btn-soft {
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #ffffff;
+      box-shadow: 0 9px 20px rgba(196,30,58,0.35);
+    }
+
+    .btn:disabled {
+      opacity: 0.55;
+      cursor: default;
+      box-shadow: none;
+    }
+
+    .preview-wrap {
+      margin-top: 4px;
+      width: 100%;
+      min-height: 110px;
+      border-radius: 14px;
+      background: #f3f4f6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    body.night .preview-wrap {
+      background: #020817;
+    }
+
+    .preview-img {
+      max-width: 100%;
+      max-height: 210px;
+      object-fit: cover;
+      display: none;
+    }
+
+    .preview-placeholder {
+      font-size: 0.62rem;
+      color: var(--muted);
+      padding: 6px;
+      text-align: center;
+    }
+
+    .status {
+      font-size: 0.6rem;
+      color: var(--muted);
+      min-height: 12px;
+    }
+
+    .status.ok { color: #16a34a; }
+    .status.err { color: #dc2626; }
+
+    /* Ticket + metrics */
+    .ticket-wrap {
+      display: grid;
+      grid-template-columns: minmax(0,1.4fr) minmax(0,1.6fr);
+      gap: 6px;
+      align-items: stretch;
+    }
+
+    @media (max-width: 800px) {
+      .ticket-wrap {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .ticket-card {
+      background: #0f172a;
+      color: #e5e7eb;
+      border-radius: 16px;
+      padding: 8px 9px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      box-shadow: 0 10px 24px rgba(15,23,42,0.6);
+    }
+
+    body:not(.night) .ticket-card {
+      background: #111827;
+      color: #f9fafb;
+    }
+
+    .ticket-label {
+      font-size: 0.55rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #9ca3af;
+    }
+
+    .ticket-main {
+      font-size: 1.1rem;
+      font-weight: 800;
+    }
+
+    .ticket-sub {
+      font-size: 0.62rem;
+      color: #9ca3af;
+    }
+
+    .metric-row {
+      display: flex;
+      gap: 4px;
+      margin-top: 4px;
+    }
+
+    .metric-pill {
+      flex: 1;
+      padding: 4px 5px;
+      border-radius: 10px;
+      border: 1px solid rgba(148,163,253,0.24);
+      font-size: 0.55rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .metric-label {
+      color: #9ca3af;
+      font-size: 0.52rem;
+    }
+
+    .metric-value {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #e5e7eb;
+    }
+
+    .brief {
+      font-size: 0.65rem;
+      color: var(--muted);
+      margin-top: 3px;
+      line-height: 1.4;
+    }
+
+    /* Sales U / Docs / Contacts strip */
+    .strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      font-size: 0.58rem;
+      margin-top: 4px;
+      align-items: center;
+      color: var(--muted);
+    }
+
+    .strip a {
+      padding: 3px 7px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      text-decoration: none;
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .strip a:hover {
+      background: var(--accent-soft);
+    }
+
+    /* Slide-out calculators */
+    .drawer-tab {
+      position: fixed;
+      top: 40%;
+      width: 22px;
+      height: 70px;
+      border-radius: 0 12px 12px 0;
+      background: #111827;
+      color: #f9fafb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.55rem;
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      cursor: pointer;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.5);
+      z-index: 40;
+    }
+
+    .drawer-tab.right {
+      right: 0;
+      border-radius: 12px 0 0 12px;
+    }
+
+    .drawer-tab.left {
+      left: 0;
+    }
+
+    .drawer {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      width: 260px;
+      background: #0b1020;
+      color: #e5e7eb;
+      box-shadow: 0 0 40px rgba(0,0,0,0.9);
+      padding: 10px 9px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      transform: translateX(-100%);
+      transition: transform 0.22s ease-out;
+      z-index: 39;
+    }
+
+    .drawer.right {
+      right: 0;
+      left: auto;
+      transform: translateX(100%);
+    }
+
+    .drawer.active.left {
+      transform: translateX(0);
+    }
+
+    .drawer.active.right {
+      transform: translateX(0);
+    }
+
+    .drawer-title {
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+
+    .drawer-sub {
+      font-size: 0.58rem;
+      color: #9ca3af;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      margin-top: 4px;
+    }
+
+    .field label {
+      font-size: 0.52rem;
+      color: #9ca3af;
+    }
+
+    .field input,
+    .field select {
+      padding: 4px 5px;
+      border-radius: 8px;
+      border: 1px solid rgba(148,163,253,0.26);
+      font-size: 0.58rem;
+      background: #020817;
+      color: #e5e7eb;
+      outline: none;
+    }
+
+    .drawer button {
+      margin-top: 5px;
+      padding: 5px 8px;
+      font-size: 0.6rem;
+      border-radius: 9px;
+      border: none;
+      background: var(--accent);
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .drawer-result {
+      font-size: 0.6rem;
+      margin-top: 4px;
+      color: #bbf7d0;
+      min-height: 0.7rem;
+    }
+
+    @media (max-width: 720px) {
+      .drawer {
+        width: 80%;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="shell">
+  <!-- HEADER -->
+  <div class="topbar">
+    <div class="brand">
+      <div class="brand-label">CARDINAL GARAGE • PRO</div>
+      <div class="brand-row">
+        <div class="brand-orb"></div>
+        <div class="brand-title">Yard Ticket Deck</div>
+        <div class="brand-pill">Photo → Ticket → Script</div>
+      </div>
+      <div class="brand-sub">
+        One upload. Jared returns a real target. You tune it, you own it.
+      </div>
+    </div>
+    <div class="controls">
+      <div class="control-row">
+        <div class="chip" id="themeToggle"><span class="icon">☾</span> Night</div>
+        <div class="chip" id="langToggle"><span class="icon">🌐</span> EN / ES</div>
+        <div class="chip" id="shortcutHint"><span class="icon">★</span> Add to home</div>
+      </div>
+      <div class="control-row" style="font-size:0.53rem;">
+        Static widgets on the sides. Center deck uses your AI backend only.
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN LAYOUT -->
+  <div class="layout">
+    <!-- LEFT: HERO / UPLOAD / TICKET / METRICS -->
+    <section class="card">
+      <div class="label">Step 1 · Drop the work zone</div>
+      <div class="hero-title">Upload a clear shot of the driveway, beds, or pad.</div>
+      <div class="hero-sub">
+        Wide angle. Show edges, clutter, slope. Jared reads it, you get a target ticket and signal—no fluff.
+      </div>
+
+      <!-- Upload -->
+      <div id="uploadZone" class="upload-zone">
+        <div class="upload-label">Tap to upload / replace photo</div>
+        <div class="upload-hint">Use one photo per job. You can still override numbers.</div>
+        <button id="btnUpload" class="btn btn-soft" type="button">Choose photo</button>
+        <input id="fileInput" type="file" accept="image/*" style="display:none" />
+      </div>
+
+      <!-- Preview -->
+      <div class="preview-wrap">
+        <img id="previewImage" class="preview-img" alt="Work zone preview" />
+        <div id="previewPlaceholder" class="preview-placeholder">
+          Preview appears here. If it looks wrong, swap the photo before you run it.
+        </div>
+      </div>
+
+      <!-- Manual sqft hook -->
+      <div class="field" style="margin-top:4px;">
+        <label for="sqftInput">Optional: estimated square footage (for cleaner ticket)</label>
+        <input id="sqftInput" type="number" min="0" placeholder="e.g. 750" />
+      </div>
+
+      <!-- Analyze button -->
+      <button id="btnAnalyze" class="btn btn-primary" type="button" disabled>
+        <span>Run Jared on this photo</span>
+        <span id="analyzeHint">· Waiting for photo</span>
+      </button>
+
+      <div id="statusText" class="status"></div>
+
+      <!-- Ticket + metrics stacked tight -->
+      <div class="ticket-wrap">
+        <!-- Ticket -->
+        <div class="ticket-card">
+          <div class="ticket-label">Target ticket</div>
+          <div id="ticketMain" class="ticket-main">$–</div>
+          <div id="ticketSub" class="ticket-sub">
+            This is where Jared’s number lands once you run a photo.
+          </div>
+        </div>
+
+        <!-- Metrics -->
+        <div class="ticket-card">
+          <div class="ticket-label">Signal</div>
+          <div class="metric-row">
+            <div class="metric-pill">
+              <div class="metric-label">Close</div>
+              <div id="metricClose" class="metric-value">–%</div>
+            </div>
+            <div class="metric-pill">
+              <div class="metric-label">Upsell lane</div>
+              <div id="metricUpsell" class="metric-value">–%</div>
+            </div>
+            <div class="metric-pill">
+              <div class="metric-label">Risk</div>
+              <div id="metricRisk" class="metric-value">–%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Brief -->
+      <div id="briefText" class="brief">
+        When you run it, you’ll get a tight 2–3 line field note you can read straight to the client.
+      </div>
+
+      <!-- Sales U / docs / contacts strip -->
+      <div class="strip">
+        <span>When you’re ready to sharpen:</span>
+        <a href="../pro/sales-university/index.html">Sales U (scripts & drills)</a>
+        <a href="../pro/docs/index.html">Docs</a>
+        <a href="../pro/contacts/index.html">Contacts</a>
+      </div>
+    </section>
+
+    <!-- RIGHT: SNAPSHOT / EXPORT / NOTES -->
+    <section class="card">
+      <div class="label">Live deck snapshot</div>
+      <div id="snapshotText" class="brief">
+        Every run generates a snapshot you can copy into your CRM, texts, or whiteboard. This side never sells for you; it just keeps you honest.
+      </div>
+
+      <div class="field">
+        <label for="baseTypeSelect">Service lane (affects ticket math)</label>
+        <select id="baseTypeSelect">
+          <option value="mulch">Mulch / bed refresh</option>
+          <option value="cleanup">Clean-up / haul-out</option>
+          <option value="edging">Edging / border work</option>
+          <option value="premium">Premium / custom build</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="complexitySelect">Complexity</label>
+        <select id="complexitySelect">
+          <option value="easy">Easy</option>
+          <option value="normal" selected>Normal</option>
+          <option value="complex">Complex</option>
+        </select>
+      </div>
+
+      <button id="btnReprice" class="btn btn-soft" type="button">
+        Rebuild ticket with my lane
+      </button>
+
+      <button id="btnCopySnapshot" class="btn btn-soft" type="button">
+        Copy current snapshot
+      </button>
+
+      <div id="copyStatus" class="status"></div>
+
+      <div class="label" style="margin-top:6px;">Quick ethics</div>
+      <div class="brief">
+        Ticket is AI-assisted and tuned by you. Use it as a lane, not a lottery. Push it cleaner, not higher, and you’ll close more without feeling greasy.
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- LEFT: MOWING CALCULATOR (STATIC) -->
+<div class="drawer-tab left" id="tabMow">Mow calc</div>
+<div class="drawer left" id="drawerMow">
+  <div class="drawer-title">Mowing lane</div>
+  <div class="drawer-sub">Static helper. No AI. Use it to sanity-check routes.</div>
+  <div class="field">
+    <label>Estimated sqft</label>
+    <input id="mowSqft" type="number" min="0" placeholder="e.g. 6000" />
+  </div>
+  <div class="field">
+    <label>Trees / obstacles count</label>
+    <input id="mowObs" type="number" min="0" placeholder="0, 3, 10…" />
+  </div>
+  <div class="field">
+    <label>Cut frequency</label>
+    <select id="mowFreq">
+      <option value="weekly">Weekly</option>
+      <option value="biweekly">Bi-weekly</option>
+      <option value="oneoff">One-off</option>
+    </select>
+  </div>
+  <button id="btnMowCalc" type="button">Rough mow ticket</button>
+  <div id="mowResult" class="drawer-result"></div>
+</div>
+
+<!-- RIGHT: LANDSCAPE CALCULATOR (STATIC) -->
+<div class="drawer-tab right" id="tabLand">Landscape</div>
+<div class="drawer right" id="drawerLand">
+  <div class="drawer-title">Landscape lane</div>
+  <div class="drawer-sub">Static helper. Beds, mulch, touch-ups. You steer.</div>
+  <div class="field">
+    <label>Mulch yards</label>
+    <input id="landMulch" type="number" step="0.1" min="0" placeholder="e.g. 3.5" />
+  </div>
+  <div class="field">
+    <label>Bed edge length (ft)</label>
+    <input id="landEdge" type="number" min="0" placeholder="e.g. 120" />
+  </div>
+  <div class="field">
+    <label>New plants (count)</label>
+    <input id="landPlants" type="number" min="0" placeholder="e.g. 12" />
+  </div>
+  <button id="btnLandCalc" type="button">Rough landscape ticket</button>
+  <div id="landResult" class="drawer-result"></div>
+</div>
+
+<script>
+  // ===== CONFIG =====
+  const CONFIG = {
+    API_BASE: "https://cardinalcalculator-backend.onrender.com",
+    ROUTES: {
+      analyze: "/analyze",
+      price: "/price"
+    }
+  };
+
+  // ===== DOM =====
+  const fileInput = document.getElementById("fileInput");
+  const uploadZone = document.getElementById("uploadZone");
+  const btnUpload = document.getElementById("btnUpload");
+  const previewImage = document.getElementById("previewImage");
+  const previewPlaceholder = document.getElementById("previewPlaceholder");
+  const btnAnalyze = document.getElementById("btnAnalyze");
+  const analyzeHint = document.getElementById("analyzeHint");
+  const statusText = document.getElementById("statusText");
+  const sqftInput = document.getElementById("sqftInput");
+
+  const ticketMain = document.getElementById("ticketMain");
+  const ticketSub = document.getElementById("ticketSub");
+  const metricClose = document.getElementById("metricClose");
+  const metricUpsell = document.getElementById("metricUpsell");
+  const metricRisk = document.getElementById("metricRisk");
+  const briefText = document.getElementById("briefText");
+  const snapshotText = document.getElementById("snapshotText");
+
+  const baseTypeSelect = document.getElementById("baseTypeSelect");
+  const complexitySelect = document.getElementById("complexitySelect");
+  const btnReprice = document.getElementById("btnReprice");
+  const btnCopySnapshot = document.getElementById("btnCopySnapshot");
+  const copyStatus = document.getElementById("copyStatus");
+
+  const themeToggle = document.getElementById("themeToggle");
+  const langToggle = document.getElementById("langToggle");
+  const shortcutHint = document.getElementById("shortcutHint");
+
+  const tabMow = document.getElementById("tabMow");
+  const drawerMow = document.getElementById("drawerMow");
+  const tabLand = document.getElementById("tabLand");
+  const drawerLand = document.getElementById("drawerLand");
+
+  const mowSqft = document.getElementById("mowSqft");
+  const mowObs = document.getElementById("mowObs");
+  const mowFreq = document.getElementById("mowFreq");
+  const btnMowCalc = document.getElementById("btnMowCalc");
+  const mowResult = document.getElementById("mowResult");
+
+  const landMulch = document.getElementById("landMulch");
+  const landEdge = document.getElementById("landEdge");
+  const landPlants = document.getElementById("landPlants");
+  const btnLandCalc = document.getElementById("btnLandCalc");
+  const landResult = document.getElementById("landResult");
+
+  let selectedFile = null;
+  let lastData = null; // { summary, closePct, upsellPct, riskPct, price }
+
+  // ===== THEME TOGGLE =====
+  (function initTheme() {
+    const saved = localStorage.getItem("cgProTheme");
+    if (saved === "night") {
+      document.body.classList.add("night");
+      themeToggle.classList.add("active");
+      themeToggle.innerHTML = '<span class="icon">☀</span> Day';
+    }
+    themeToggle.addEventListener("click", () => {
+      const night = document.body.classList.toggle("night");
+      themeToggle.classList.toggle("active", night);
+      themeToggle.innerHTML = night
+        ? '<span class="icon">☀</span> Day'
+        : '<span class="icon">☾</span> Night';
+      localStorage.setItem("cgProTheme", night ? "night" : "day");
+    });
+  })();
+
+  // ===== LANG & SHORTCUT HINT (NON-BLOCKING) =====
+  langToggle.addEventListener("click", () => {
+    alert("ES copy coming. For now, you can pitch it clean in your own words.");
+  });
+
+  shortcutHint.addEventListener("click", () => {
+    alert("To pin this: use your browser menu → “Add to Home Screen”. We'll ship a proper icon soon.");
+  });
+
+  // ===== UPLOAD =====
+  uploadZone.addEventListener("click", () => fileInput.click());
+  btnUpload.addEventListener("click", () => fileInput.click());
+
+  fileInput.addEventListener("change", () => {
+    const f = fileInput.files[0];
+    if (!f) return;
+    selectedFile = f;
+    const url = URL.createObjectURL(f);
+    previewImage.src = url;
+    previewImage.style.display = "block";
+    previewPlaceholder.style.display = "none";
+    btnAnalyze.disabled = false;
+    analyzeHint.textContent = "· Ready";
+    statusText.textContent = "Photo loaded. Run it when you're ready.";
+    statusText.className = "status";
+  });
+
+  // ===== HELPERS =====
+  function clampPct(v) {
+    const n = Number(v);
+    if (!Number.isFinite(n)) return 0;
+    if (n < 0) return 0;
+    if (n > 100) return 100;
+    return Math.round(n);
+  }
+
+  function shorten(text, max) {
+    if (!text) return "";
+    const t = String(text).trim();
+    if (t.length <= max) return t;
+    return t.slice(0, max - 1).trim() + "…";
+  }
+
+  function buildSnapshotText(data) {
+    if (!data) return "Run a photo to see a live snapshot here.";
+    let ticket = "$–";
+    if (data.price && data.price.range && data.price.range.target != null) {
+      ticket = "$" + data.price.range.target;
+    } else if (data.price && data.price.corePrice != null) {
+      ticket = "$" + data.price.corePrice;
+    }
+    return [
+      "Cardinal Garage • Pro Snapshot",
+      "Target Ticket: " + ticket,
+      "Close: " + (data.closePct ?? "–") + "% | Upsell: " + (data.upsellPct ?? "–") + "% | Risk: " + (data.riskPct ?? "–") + "%",
+      "",
+      "Brief:",
+      shorten(data.summary || "", 260)
+    ].join("\n");
+  }
+
+  // ===== ANALYZE + PRICE (MAIN FLOW) =====
+  btnAnalyze.addEventListener("click", () => {
+    if (!selectedFile) {
+      alert("Drop a work-zone photo first.");
+      return;
+    }
+
+    btnAnalyze.disabled = true;
+    analyzeHint.textContent = "· Running";
+    statusText.textContent = "Jared is reading the layout, edges, and clutter…";
+    statusText.className = "status";
+
+    const formData = new FormData();
+    formData.append("file", selectedFile);
+    formData.append("mode", "pro");
+    formData.append("source", "pro_deck");
+
+    fetch(CONFIG.API_BASE + CONFIG.ROUTES.analyze, {
+      method: "POST",
+      body: formData
+    })
+      .then((resp) => {
+        if (!resp.ok) throw new Error("Analyze " + resp.status);
+        return resp.json();
+      })
+      .then((data) => {
+        // Fallbacks if backend returns only summary/metrics
+        const close = clampPct(data.closePct != null ? data.closePct : 65);
+        const upsell = clampPct(data.upsellPct != null ? data.upsellPct : 45);
+        const risk = clampPct(data.riskPct != null ? data.riskPct : 30);
+
+        // Now hit price engine with either user sqft or 0
+        const sqftVal = Number(sqftInput.value) || 0;
+
+        return fetch(CONFIG.API_BASE + CONFIG.ROUTES.price, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            sqft: sqftVal,
+            baseType: baseTypeSelect.value,
+            complexity: complexitySelect.value,
+            riskLevel: risk,
+            upsellScore: upsell
+          })
+        })
+          .then((pResp) => (pResp.ok ? pResp.json() : null))
+          .then((priceData) => ({
+            summary: (data.summary || "").trim(),
+            closePct: close,
+            upsellPct: upsell,
+            riskPct: risk,
+            price: priceData
+          }));
+      })
+      .then((combined) => {
+        lastData = combined;
+
+        // Ticket
+        let ticket = "$–";
+        if (combined.price && combined.price.range && combined.price.range.target != null) {
+          ticket = "$" + combined.price.range.target;
+          ticketSub.textContent = "Target ticket off this layout. You still control the story.";
+        } else if (combined.price && combined.price.corePrice != null) {
+          ticket = "$" + combined.price.corePrice;
+          ticketSub.textContent = "Core ticket from your lane inputs.";
+        } else {
+          ticketSub.textContent = "No price back. Try wider photo or set sqft + lane, then Rebuild.";
+        }
+        ticketMain.textContent = ticket;
+
+        // Metrics
+        metricClose.textContent = combined.closePct + "%";
+        metricUpsell.textContent = combined.upsellPct + "%";
+        metricRisk.textContent = combined.riskPct + "%";
+
+        // Brief
+        const brief =
+          combined.summary ||
+          "Standard prep, clean edges, one focused add-on. Keep it straight.";
+        briefText.textContent = shorten(brief, 260);
+
+        // Snapshot
+        snapshotText.textContent = buildSnapshotText(combined);
+
+        statusText.textContent = "Run complete. Tune the lane or copy the snapshot.";
+        statusText.className = "status ok";
+        analyzeHint.textContent = "· Done";
+      })
+      .catch((err) => {
+        console.error(err);
+        statusText.textContent =
+          "Analysis failed. Check backend URL, then rerun with a clear wide shot.";
+        statusText.className = "status err";
+        analyzeHint.textContent = "· Error";
+      })
+      .finally(() => {
+        btnAnalyze.disabled = false;
+      });
+  });
+
+  // ===== REPRICE WITH CURRENT METRICS =====
+  btnReprice.addEventListener("click", () => {
+    if (!lastData) {
+      alert("Run one photo first so Jared has signal.");
+      return;
+    }
+    const sqftVal = Number(sqftInput.value) || 0;
+
+    fetch(CONFIG.API_BASE + CONFIG.ROUTES.price, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        sqft: sqftVal,
+        baseType: baseTypeSelect.value,
+        complexity: complexitySelect.value,
+        riskLevel: lastData.riskPct,
+        upsellScore: lastData.upsellPct
+      })
+    })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((priceData) => {
+        if (!priceData) {
+          ticketSub.textContent = "No updated price. Check backend.";
+          return;
+        }
+        lastData.price = priceData;
+
+        let ticket = "$–";
+        if (priceData.range && priceData.range.target != null) {
+          ticket = "$" + priceData.range.target;
+          ticketSub.textContent = "Rebuilt off your lane + Jared’s signal.";
+        } else if (priceData.corePrice != null) {
+          ticket = "$" + priceData.corePrice;
+          ticketSub.textContent = "Core ticket only. Add your buffer.";
+        }
+        ticketMain.textContent = ticket;
+        snapshotText.textContent = buildSnapshotText(lastData);
+      })
+      .catch(() => {
+        ticketSub.textContent = "Reprice failed. Leave your last ticket; no harm done.";
+      });
+  });
+
+  // ===== COPY SNAPSHOT =====
+  btnCopySnapshot.addEventListener("click", () => {
+    if (!lastData) {
+      copyStatus.textContent = "Nothing to copy yet.";
+      return;
+    }
+    const text = buildSnapshotText(lastData);
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text)
+        .then(() => {
+          copyStatus.textContent = "Snapshot copied. Paste in CRM or text thread.";
+          copyStatus.className = "status ok";
+        })
+        .catch(() => {
+          copyStatus.textContent = "Copy blocked. Long-press & copy manually.";
+          copyStatus.className = "status err";
+        });
+    } else {
+      copyStatus.textContent = "Clipboard not supported here.";
+      copyStatus.className = "status err";
+    }
+  });
+
+  // ===== STATIC MOW CALC =====
+  btnMowCalc.addEventListener("click", () => {
+    const s = Number(mowSqft.value) || 0;
+    const o = Number(mowObs.value) || 0;
+    const f = mowFreq.value || "weekly";
+
+    if (!s) {
+      mowResult.textContent = "Add sqft for anything real.";
+      return;
+    }
+
+    // Rough lane: this is YOURS to tweak. Pure static math.
+    let base = (s / 1000) * 6; // $6 per 1k as starting lane
+    base += o * 1.5;
+    if (f === "oneoff") base *= 1.4;
+    if (f === "biweekly") base *= 1.15;
+
+    const clean = Math.max(15, Math.round(base / 5) * 5);
+    mowResult.textContent = "Lane: $" + clean + " per cut (adjust for your market).";
+  });
+
+  // ===== STATIC LANDSCAPE CALC =====
+  btnLandCalc.addEventListener("click", () => {
+    const m = Number(landMulch.value) || 0;
+    const e = Number(landEdge.value) || 0;
+    const p = Number(landPlants.value) || 0;
+
+    if (!m && !e && !p) {
+      landResult.textContent = "Add at least one input.";
+      return;
+    }
+
+    // Rough static lane values.
+    const mulch = m * 85;
+    const edge = e * 1.4;
+    const plants = p * 8;
+
+    const raw = mulch + edge + plants + 40;
+    const clean = Math.round(raw / 10) * 10;
+
+    landResult.textContent =
+      "Lane: about $" + clean + " for this scope. Use Jared’s ticket to cross-check.";
+  });
+
+  // ===== DRAWER TOGGLES =====
+  tabMow.addEventListener("click", () => {
+    drawerMow.classList.toggle("active");
+    drawerLand.classList.remove("active");
+  });
+
+  tabLand.addEventListener("click", () => {
+    drawerLand.classList.toggle("active");
+    drawerMow.classList.remove("active");
+  });
+</script>
+</body>
+</html>

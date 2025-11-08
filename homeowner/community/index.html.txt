@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  />
+  <title>Community Garden Board • Garden Digest</title>
+  <style>
+    :root {
+      --bg: #f5f7f6;
+      --shell: #ffffff;
+      --border-soft: rgba(20, 40, 32, 0.12);
+      --border-strong: rgba(20, 40, 32, 0.2);
+      --accent: #19b37a;
+      --accent-soft: rgba(25, 179, 122, 0.1);
+      --accent-alt: #1c9ad6;
+      --text-main: #111817;
+      --text-soft: rgba(17, 24, 23, 0.78);
+      --muted: rgba(17, 24, 23, 0.6);
+      --radius-xl: 22px;
+      --radius-md: 14px;
+      --shadow-soft: 0 10px 30px rgba(14, 32, 24, 0.12);
+      --font: system-ui, -apple-system, BlinkMacSystemFont, -system-ui, sans-serif;
+      --fast: 0.22s ease;
+      --med: 0.34s ease;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 10px;
+      font-family: var(--font);
+      background:
+        radial-gradient(circle at top, rgba(25,179,122,0.03), transparent),
+        var(--bg);
+      color: var(--text-main);
+    }
+
+    .shell {
+      margin: 0 auto;
+      max-width: 1120px;
+      background: var(--shell);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border-soft);
+      box-shadow: var(--shadow-soft);
+      padding: 12px 10px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .top-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+
+    .eyebrow {
+      font-size: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--accent);
+    }
+
+    h1 {
+      margin: 2px 0 3px;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .tagline {
+      font-size: 9px;
+      color: var(--text-soft);
+      max-width: 420px;
+    }
+
+    .hint {
+      font-size: 7.5px;
+      color: var(--muted);
+    }
+
+    .pill {
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      font-size: 8px;
+      color: var(--text-soft);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .pill span.dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--accent);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.9fr) minmax(260px, 1.1fr);
+      gap: 10px;
+      align-items: flex-start;
+      margin-top: 2px;
+    }
+
+    @media (max-width: 768px) {
+      body { padding: 6px; }
+      .shell {
+        padding: 10px 8px 8px;
+        border-radius: 18px;
+      }
+      .grid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+    }
+
+    .panel {
+      background: #ffffff;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-soft);
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .panel h2 {
+      margin: 0;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .panel h2 span.line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, rgba(0,0,0,0.14), transparent);
+    }
+
+    /* Post card */
+
+    .post-card {
+      padding: 7px;
+      border-radius: 10px;
+      border: 1px solid var(--accent-soft);
+      background: #fafdfb;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      font-size: 8px;
+    }
+
+    .post-label {
+      font-size: 8px;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .post-sub {
+      font-size: 7px;
+      color: var(--muted);
+    }
+
+    .post-row {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-top: 2px;
+    }
+
+    .file-input-wrap {
+      padding: 4px 6px;
+      border-radius: 8px;
+      border: 1px dashed var(--accent-soft);
+      background: #ffffff;
+      font-size: 7px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .file-input-wrap span.icon {
+      font-size: 9px;
+    }
+
+    .file-input-wrap input {
+      display: none;
+    }
+
+    .select-tag {
+      padding: 3px 5px;
+      border-radius: 8px;
+      border: 1px solid var(--border-soft);
+      font-size: 7px;
+      background: #ffffff;
+      color: var(--text-soft);
+    }
+
+    .post-textarea {
+      margin-top: 3px;
+      width: 100%;
+      min-height: 40px;
+      resize: vertical;
+      font-size: 7.5px;
+      padding: 4px 5px;
+      border-radius: 8px;
+      border: 1px solid var(--border-soft);
+      font-family: var(--font);
+      color: var(--text-main);
+      outline: none;
+    }
+
+    .post-btn {
+      margin-top: 4px;
+      padding: 5px 7px;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(90deg, var(--accent), var(--accent-alt));
+      color: #ffffff;
+      font-size: 7.5px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      box-shadow: 0 5px 14px rgba(14,32,24,0.22);
+      transition: all var(--fast);
+      align-self: flex-start;
+    }
+
+    .post-btn span.icon {
+      font-size: 9px;
+    }
+
+    .post-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 18px rgba(14,32,24,0.28);
+    }
+
+    .post-note {
+      font-size: 6.5px;
+      color: var(--muted);
+      margin-top: 1px;
+    }
+
+    /* Threads */
+
+    .thread-list {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 7.5px;
+    }
+
+    .thread {
+      padding: 5px 5px 4px;
+      border-radius: 9px;
+      border: 1px solid var(--border-soft);
+      background: #ffffff;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .thread-label {
+      font-size: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--accent);
+    }
+
+    .thread-question {
+      font-size: 7.75px;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .thread-detail {
+      font-size: 7px;
+      color: var(--text-soft);
+    }
+
+    .thread-replies {
+      font-size: 6.5px;
+      color: var(--muted);
+      margin-top: 1px;
+    }
+
+    /* Digest */
+
+    .digest-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 5px;
+      font-size: 7.25px;
+    }
+
+    .digest-card {
+      padding: 5px;
+      border-radius: 9px;
+      border: 1px solid var(--border-soft);
+      background:
+        radial-gradient(circle at top, rgba(25,179,122,0.03), transparent),
+        #ffffff;
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      transition: all var(--fast);
+    }
+
+    .digest-tag {
+      font-size: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--accent);
+    }
+
+    .digest-title {
+      font-size: 8px;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .digest-body {
+      font-size: 7px;
+      color: var(--text-soft);
+      line-height: 1.5;
+    }
+
+    .digest-card:hover {
+      box-shadow: 0 4px 10px rgba(14,32,24,0.12);
+      transform: translateY(-1px);
+      border-color: var(--accent-soft);
+    }
+
+    /* Poll */
+
+    .poll-panel {
+      padding: 7px;
+      border-radius: 10px;
+      border: 1px solid var(--border-soft);
+      background: #fafdfb;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 7.5px;
+      color: var(--text-soft);
+    }
+
+    .poll-title {
+      font-size: 8.5px;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .poll-sub {
+      font-size: 7px;
+      color: var(--muted);
+    }
+
+    .poll-options {
+      display: grid;
+      gap: 3px;
+      margin-top: 2px;
+    }
+
+    .poll-option {
+      padding: 4px 5px;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      font-size: 7px;
+      transition: all var(--fast);
+    }
+
+    .poll-option span.box {
+      width: 9px;
+      height: 9px;
+      border-radius: 3px;
+      border: 1px solid var(--accent-soft);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 7px;
+      color: var(--accent);
+    }
+
+    .poll-option.active {
+      border-color: var(--accent);
+      box-shadow: 0 3px 8px rgba(25,179,122,0.18);
+      color: var(--accent);
+    }
+
+    .poll-freeform {
+      margin-top: 3px;
+      padding: 4px 5px;
+      border-radius: 8px;
+      border: 1px solid var(--border-soft);
+      min-height: 40px;
+      font-size: 7px;
+      font-family: var(--font);
+      resize: vertical;
+      outline: none;
+      color: var(--text-main);
+      background: #ffffff;
+    }
+
+    .poll-submit {
+      margin-top: 4px;
+      padding: 5px 7px;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(90deg, var(--accent), var(--accent-alt));
+      color: #ffffff;
+      font-size: 7.5px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      box-shadow: 0 6px 16px rgba(14,32,24,0.24);
+      transition: all var(--fast);
+      align-self: flex-start;
+    }
+
+    .poll-submit span.icon {
+      font-size: 9px;
+    }
+
+    .poll-submit:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 9px 20px rgba(14,32,24,0.3);
+    }
+
+    .poll-note {
+      font-size: 6.5px;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <div class="top-row">
+      <div>
+        <div class="eyebrow">Community Garden Board</div>
+        <h1>Ask, share, and compare with other yard people.</h1>
+        <div class="tagline">
+          Post a picture, tell the story, see how others handled it.
+          Zero selling. Just neighbors trading clean, useful answers.
+        </div>
+        <div class="hint">
+          If the tool didn’t quite nail it, this is your second look.
+        </div>
+      </div>
+      <div>
+        <div class="pill">
+          <span class="dot"></span>
+          Garden Digest &nbsp;•&nbsp; Quiet yard magazine inside.
+        </div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <!-- LEFT: Post & Threads -->
+      <div class="panel">
+        <h2>
+          Share Your Yard
+          <span class="line"></span>
+        </h2>
+
+        <!-- Post card -->
+        <form class="post-card" id="postForm">
+          <div class="post-label">Post a yard question</div>
+          <div class="post-sub">
+            Snap your spot, say what’s going on, and ask how others fixed it.
+          </div>
+          <div class="post-row">
+            <label class="file-input-wrap">
+              <span class="icon">📷</span>
+              <span id="fileLabel">Add photo (optional)</span>
+              <input type="file" id="photoInput" accept="image/*" />
+            </label>
+            <select class="select-tag" id="tagSelect">
+              <option value="">Tag (optional)</option>
+              <option>Brown spots</option>
+              <option>Weeds</option>
+              <option>Patch repair</option>
+              <option>Bugs / fungus</option>
+              <option>Watering</option>
+              <option>Garden beds</option>
+            </select>
+          </div>
+          <textarea
+            class="post-textarea"
+            id="postText"
+            placeholder="Example: 'Front yard turned yellow in two weeks after heavy rain. Anyone seen this before?'"
+          ></textarea>
+          <button type="submit" class="post-btn">
+            <span>Share with the board</span>
+            <span class="icon">↗</span>
+          </button>
+          <div class="post-note">
+            Your post shows up here in the community list. Keep it helpful and specific.
+          </div>
+        </form>
+
+        <!-- Threads -->
+        <div class="thread-list" id="threadList">
+          <div class="thread">
+            <div class="thread-label">Brown spots • Shared from Lockport</div>
+            <div class="thread-question">
+              "Tool said 'bugs'. Anyone else had this ring pattern?"
+            </div>
+            <div class="thread-detail">
+              Replies mention checking watering schedule, pet spots,
+              and one light fertilizer pass instead of nuking the yard.
+            </div>
+            <div class="thread-replies">3 neighbor replies • Last reply: yesterday</div>
+          </div>
+
+          <div class="thread">
+            <div class="thread-label">Patch repair • Shared from Joliet</div>
+            <div class="thread-question">
+              "Best way to fix this bare strip along the driveway?"
+            </div>
+            <div class="thread-detail">
+              Suggestions: loosen soil, seed + light compost, two weeks of gentle water.
+            </div>
+            <div class="thread-replies">5 neighbor replies • Marked 'worked'</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Garden Digest + Poll -->
+      <div class="panel">
+        <h2>
+          Garden Digest
+          <span class="line"></span>
+        </h2>
+
+        <div class="digest-list">
+          <div class="digest-card">
+            <div class="digest-tag">Lawn basics</div>
+            <div class="digest-title">3 signs it’s water, not disease.</div>
+            <div class="digest-body">
+              Quick checks you can do in 60 seconds before buying anything:
+              footprint test, soil feel, and where the yellow starts.
+            </div>
+          </div>
+          <div class="digest-card">
+            <div class="digest-tag">Smart gear</div>
+            <div class="digest-title">Are robot mowers actually ready?</div>
+            <div class="digest-body">
+              What neighbors are saying about small-yard bots, hills,
+              kids, dogs, and noise. No brands pushed, just pros/cons.
+            </div>
+          </div>
+          <div class="digest-card">
+            <div class="digest-tag">Soil & feed</div>
+            <div class="digest-title">Gentle feeding, less guessing.</div>
+            <div class="digest-body">
+              Why lighter, more targeted fertilizer passes are winning
+              over heavy seasonal dumps in a lot of yards.
+            </div>
+          </div>
+          <div class="digest-card">
+            <div class="digest-tag">Garden corners</div>
+            <div class="digest-title">Tiny beds, big wins.</div>
+            <div class="digest-body">
+              Simple native plant combos from other readers that made
+              one small corner look put-together all season.
+            </div>
+          </div>
+        </div>
+
+        <div class="poll-panel">
+          <div class="poll-title">If anything could exist, what would you want?</div>
+          <div class="poll-sub">
+            Not from us, not an ad &mdash; just curious what tool or gadget
+            you wish someone would build for yards.
+          </div>
+
+          <div class="poll-options" id="pollOptions">
+            <div class="poll-option" data-value="smart-mower">
+              <span class="box">+</span>
+              A quiet, simple smart mower that doesn’t need a degree to set up.
+            </div>
+            <div class="poll-option" data-value="fert-guide">
+              <span class="box">+</span>
+              A clear fert guide that matches my yard, not the whole country.
+            </div>
+            <div class="poll-option" data-value="water-smart">
+              <span class="box">+</span>
+              Sprinkler or hose helper that tells me when to stop.
+            </div>
+            <div class="poll-option" data-value="disease-id">
+              <span class="box">+</span>
+              Honest photo check: is this bugs, fungus, dog, or just stress?
+            </div>
+          </div>
+
+          <textarea
+            class="poll-freeform"
+            id="pollFreeform"
+            placeholder="Or describe your dream yard gadget / app in a sentence."
+          ></textarea>
+
+          <button class="poll-submit" id="pollSubmit">
+            <span>Send to the Digest</span>
+            <span class="icon">↗</span>
+          </button>
+          <div class="poll-note" id="pollNote">
+            Ideas stay anonymous. We use them to shape future articles and tools.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Handle file label
+    const photoInput = document.getElementById("photoInput");
+    const fileLabel = document.getElementById("fileLabel");
+    if (photoInput) {
+      photoInput.addEventListener("change", () => {
+        const file = photoInput.files[0];
+        fileLabel.textContent = file ? "Photo added" : "Add photo (optional)";
+      });
+    }
+
+    // Simple "post to board" demo (front-end only)
+    const postForm = document.getElementById("postForm");
+    const postText = document.getElementById("postText");
+    const tagSelect = document.getElementById("tagSelect");
+    const threadList = document.getElementById("threadList");
+
+    if (postForm && postText && threadList) {
+      postForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const text = postText.value.trim();
+        const tag = tagSelect.value;
+        if (!text) return;
+
+        const div = document.createElement("div");
+        div.className = "thread";
+        const label = tag
+          ? `${tag} • New from the board`
+          : "New yard question";
+        div.innerHTML = `
+          <div class="thread-label">${label}</div>
+          <div class="thread-question">${text}</div>
+          <div class="thread-detail">
+            Waiting on replies from other readers. Check back soon.
+          </div>
+          <div class="thread-replies">0 replies yet</div>
+        `;
+        threadList.prepend(div);
+
+        postText.value = "";
+        tagSelect.value = "";
+        if (photoInput) {
+          photoInput.value = "";
+          fileLabel.textContent = "Add photo (optional)";
+        }
+      });
+    }
+
+    // Poll interactions (front-end only)
+    const pollOptions = document.getElementById("pollOptions");
+    const pollSubmit = document.getElementById("pollSubmit");
+    const pollNote = document.getElementById("pollNote");
+    const pollFreeform = document.getElementById("pollFreeform");
+
+    if (pollOptions && pollSubmit && pollNote) {
+      pollOptions.addEventListener("click", (e) => {
+        const opt = e.target.closest(".poll-option");
+        if (!opt) return;
+        document
+          .querySelectorAll(".poll-option")
+          .forEach((el) => el.classList.remove("active"));
+        opt.classList.add("active");
+      });
+
+      pollSubmit.addEventListener("click", () => {
+        const active = document.querySelector(".poll-option.active");
+        const choice = active ? active.dataset.value : null;
+        const idea = (pollFreeform && pollFreeform.value.trim()) || "";
+        // demo: just acknowledge
+        pollNote.textContent =
+          "Thanks. Your pick just went into the next Digest brainstorm.";
+        if (pollFreeform) pollFreeform.value = "";
+        if (active) active.classList.remove("active");
+        setTimeout(() => {
+          pollNote.textContent =
+            "Ideas stay anonymous. We use them to shape future articles and tools.";
+        }, 3500);
+      });
+    }
+  </script>
+</body>
+</html>

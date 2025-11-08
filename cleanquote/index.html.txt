@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Cardinal CleanQuote • Instant Pressure Washing Widget</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:#050809;
+  color:#f4f7f5;
+  padding:32px 16px;
+}
+.wrapper{
+  max-width:1080px;
+  margin:0 auto;
+}
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:4px 10px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.16);
+  background:rgba(9,20,15,.9);
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  color:#8ef2c0;
+}
+h1{
+  font-size:32px;
+  margin:14px 0 10px;
+}
+.subtitle{
+  font-size:14px;
+  max-width:520px;
+  color:rgba(244,247,245,.78);
+}
+.hero{
+  display:grid;
+  grid-template-columns:minmax(0,3fr) minmax(260px,2fr);
+  gap:24px;
+  margin-top:26px;
+  align-items:flex-start;
+}
+.points{
+  display:grid;
+  gap:10px;
+  margin:18px 0;
+}
+.point{
+  display:flex;
+  gap:8px;
+  font-size:13px;
+  color:rgba(244,247,245,.84);
+}
+.point span.icon{
+  width:16px;height:16px;
+  border-radius:999px;
+  border:1px solid rgba(142,242,192,.7);
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;
+}
+.cta-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:6px;
+}
+button.primary{
+  padding:10px 18px;
+  border-radius:999px;
+  border:none;
+  background:linear-gradient(135deg,#21c78b,#39d9ff);
+  color:#020404;
+  font-weight:600;
+  font-size:13px;
+  cursor:pointer;
+}
+button.ghost{
+  padding:9px 16px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.22);
+  background:transparent;
+  color:#f4f7f5;
+  font-size:12px;
+  cursor:pointer;
+}
+.trust{
+  margin-top:10px;
+  font-size:10px;
+  color:rgba(244,247,245,.6);
+}
+.panel{
+  background:radial-gradient(circle at top,#122820,#050809);
+  border-radius:20px;
+  border:1px solid rgba(255,255,255,.14);
+  padding:14px 14px 16px;
+  box-shadow:0 18px 50px rgba(0,0,0,.84);
+}
+.panel-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:10px;
+}
+.panel-title{
+  font-size:13px;
+  font-weight:600;
+}
+.panel-tag{
+  font-size:9px;
+  padding:3px 8px;
+  border-radius:999px;
+  border:1px solid rgba(62,226,160,.6);
+  color:#8ef2c0;
+}
+.demo-note{
+  font-size:9px;
+  color:rgba(244,247,245,.6);
+  margin-bottom:6px;
+}
+label{
+  display:block;
+  font-size:9px;
+  margin:6px 0 2px;
+  color:rgba(244,247,245,.68);
+}
+select,input{
+  width:100%;
+  padding:7px 8px;
+  border-radius:9px;
+  border:1px solid rgba(255,255,255,.18);
+  background:rgba(5,10,9,.96);
+  color:#f4f7f5;
+  font-size:10px;
+}
+.row{
+  display:flex;
+  gap:6px;
+}
+.badge-row{
+  display:flex;
+  gap:6px;
+  margin-top:4px;
+}
+.badge-pill{
+  flex:1;
+  text-align:center;
+  padding:4px 6px;
+  font-size:8px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.16);
+  cursor:pointer;
+  opacity:.75;
+}
+.badge-pill.active{
+  border-color:#21c78b;
+  opacity:1;
+}
+.file-input{
+  font-size:8px;
+}
+button#get-quote{
+  width:100%;
+  margin-top:9px;
+  padding:8px;
+  border-radius:12px;
+  border:none;
+  background:linear-gradient(135deg,#21c78b,#39d9ff);
+  font-size:11px;
+  font-weight:600;
+  cursor:pointer;
+  color:#020404;
+}
+.output{
+  margin-top:8px;
+  padding:7px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,.14);
+  background:rgba(3,6,5,.98);
+  font-size:9px;
+}
+.output h3{
+  font-size:10px;
+  margin-bottom:4px;
+}
+.package{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:3px 0;
+}
+.package-label{
+  font-size:9px;
+}
+.package-price{
+  font-size:9px;
+  font-weight:600;
+  color:#8ef2c0;
+}
+.embed{
+  margin-top:30px;
+  padding:14px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.18);
+  font-size:10px;
+  background:rgba(3,6,5,.98);
+}
+.code{
+  margin-top:6px;
+  padding:6px;
+  border-radius:8px;
+  font-family:"SF Mono",Menlo,monospace;
+  font-size:9px;
+  background:#020404;
+  overflow-x:auto;
+}
+@media(max-width:768px){
+  .hero{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<div class="wrapper">
+  <div class="badge">
+    <span>Cardinal</span> • CleanQuote Widget
+  </div>
+  <h1>Instant Pressure Washing Quotes Your Customers Actually Trust.</h1>
+  <p class="subtitle">
+    Drop a clean “Upload → Instant Price Band” widget on any site. Pre-qualify time-wasters, charge confident rates, and look like a franchise in 10 minutes.
+  </p>
+
+  <div class="hero">
+    <div>
+      <div class="points">
+        <div class="point">
+          <span class="icon">✓</span>
+          <div>Homeowner uploads a photo + rough size → sees a fair, transparent price band in seconds.</div>
+        </div>
+        <div class="point">
+          <span class="icon">✓</span>
+          <div>You receive a structured lead with photos, contact info, and their selected package.</div>
+        </div>
+        <div class="point">
+          <span class="icon">✓</span>
+          <div>No custom dev. Copy-paste our snippet once; Cardinal runs the logic in the background.</div>
+        </div>
+      </div>
+      <div class="cta-row">
+        <button class="primary" onclick="document.getElementById('demo-widget').scrollIntoView({behavior:'smooth'});">
+          Try the live widget demo
+        </button>
+        <button class="ghost" onclick="document.getElementById('embed').scrollIntoView({behavior:'smooth'});">
+          See 10-minute install
+        </button>
+      </div>
+      <div class="trust">
+        Built on the same estimation engine powering Cardinal’s landscape pricing. Yours, white-labeled.
+      </div>
+    </div>
+
+    <div class="panel" id="demo-widget">
+      <div class="panel-header">
+        <div class="panel-title">CleanQuote • Demo</div>
+        <div class="panel-tag">Instant Widget v1</div>
+      </div>
+      <div class="demo-note">Demo logic runs in-browser. Live version can call your Cardinal backend.</div>
+
+      <label for="surface">Surface</label>
+      <select id="surface">
+        <option value="driveway">Driveway</option>
+        <option value="patio">Patio / Walk</option>
+        <option value="house">House Siding</option>
+        <option value="fence">Fence</option>
+      </select>
+
+      <div class="row">
+        <div style="flex:1;">
+          <label for="length">Length (ft)</label>
+          <input type="number" id="length" min="5" value="40" />
+        </div>
+        <div style="flex:1;">
+          <label for="width">Width (ft)</label>
+          <input type="number" id="width" min="3" value="10" />
+        </div>
+      </div>
+
+      <label>Grime level</label>
+      <div class="badge-row" id="grime-row">
+        <div class="badge-pill active" data-mult="0.9">Light</div>
+        <div class="badge-pill" data-mult="1.0">Average</div>
+        <div class="badge-pill" data-mult="1.2">Heavy</div>
+      </div>
+
+      <label class="file-input">
+        Optional photo (for your lead only)
+        <input type="file" id="photo" accept="image/*" />
+      </label>
+
+      <button id="get-quote">Get Instant Quote</button>
+
+      <div class="output" id="output" style="display:none;">
+        <h3>Suggested Packages</h3>
+        <div class="package">
+          <div class="package-label">Good • Basic Wash</div>
+          <div class="package-price" id="good-price"></div>
+        </div>
+        <div class="package">
+          <div class="package-label">Better • Deep Clean</div>
+          <div class="package-price" id="better-price"></div>
+        </div>
+        <div class="package">
+          <div class="package-label">Best • Premium + Sealant</div>
+          <div class="package-price" id="best-price"></div>
+        </div>
+        <div style="margin-top:4px;color:rgba(244,247,245,.62);">
+          Ranges are tuned for typical U.S. markets. Customize for your region inside your Cardinal dashboard.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="embed" id="embed">
+    <strong>How pros add this widget (Sellable v1):</strong>
+    <p>
+      1) You host <code>cleanquote-widget.js</code> once.<br/>
+      2) Pros paste this on their site where they want the button/card to appear.
+    </p>
+    <div class="code">
+&lt;div id=&quot;cardinal-cleanquote-widget&quot;&gt;&lt;/div&gt;
+&lt;script
+  src=&quot;https://YOUR-FRONTEND-DOMAIN.com/widgets/cleanquote-widget.js&quot;
+  data-pro-name=&quot;BrightWash Pressure Pros&quot;
+  data-primary-color=&quot;#21c78b&quot;
+  data-contact-endpoint=&quot;https://YOUR-API.com/lead&quot;
+&gt;&lt;/script&gt;
+    </div>
+    <p style="margin-top:6px;">
+      The script renders the same card your demo shows, branded with their company name. On quote submit,
+      it POSTs the lead + quote details to your backend (or directly emails them).
+    </p>
+  </div>
+</div>
+
+<script>
+(function(){
+  const surfaceEl = document.getElementById("surface");
+  const lengthEl = document.getElementById("length");
+  const widthEl = document.getElementById("width");
+  const grimeRow = document.getElementById("grime-row");
+  const btn = document.getElementById("get-quote");
+  const outWrap = document.getElementById("output");
+  const goodEl = document.getElementById("good-price");
+  const betterEl = document.getElementById("better-price");
+  const bestEl = document.getElementById("best-price");
+
+  let grimeMult = 0.9;
+
+  grimeRow.addEventListener("click", (e)=>{
+    const pill = e.target.closest(".badge-pill");
+    if(!pill) return;
+    grimeMult = parseFloat(pill.dataset.mult || "1");
+    Array.from(grimeRow.children).forEach(p => p.classList.remove("active"));
+    pill.classList.add("active");
+  });
+
+  function clamp(n,min,max){
+    n = Number(n);
+    if(!isFinite(n)) n = 0;
+    if(n < min) n = min;
+    if(n > max) n = max;
+    return n;
+  }
+
+  function calcBaseRate(surface){
+    if(surface === "driveway" || surface === "patio") return {low:0.10, high:0.18};
+    if(surface === "house") return {low:0.15, high:0.25};
+    if(surface === "fence") return {low:0.80, high:1.50}; // per linear foot
+    return {low:0.12, high:0.20};
+  }
+
+  function formatUSD(v){
+    return "$" + v.toFixed(0);
+  }
+
+  btn.addEventListener("click", ()=>{
+    const surface = surfaceEl.value;
+    const L = clamp(lengthEl.value || 0, 5, 500);
+    const W = clamp(widthEl.value || 0, 3, 200);
+
+    let area = L * W;
+    if(surface === "fence"){
+      area = L;
+    }
+
+    const base = calcBaseRate(surface);
+    let low = area * base.low * grimeMult;
+    let high = area * base.high * grimeMult;
+
+    if(low < 40){ low = 40; }
+    if(high < low + 20){ high = low + 20; }
+
+    const goodLow = low * 0.9;
+    const goodHigh = low;
+    const betterLow = low;
+    const betterHigh = (low + high) / 2;
+    const bestLow = betterHigh;
+    const bestHigh = high * 1.15;
+
+    goodEl.textContent = formatUSD(goodLow) + " – " + formatUSD(goodHigh);
+    betterEl.textContent = formatUSD(betterLow) + " – " + formatUSD(betterHigh);
+    bestEl.textContent = formatUSD(bestLow) + " – " + formatUSD(bestHigh);
+
+    outWrap.style.display = "block";
+  });
+})();
+</script>
+</body>
+</html>

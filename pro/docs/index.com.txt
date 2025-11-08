@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta
+    name="viewport"
+    content="width=device-width,initial-scale=1,viewport-fit=cover"
+  />
+  <title>Cardinal Garage • Pro Docs & Forms</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #020817;
+      --shell: #020817;
+      --card: #020817;
+      --border: rgba(148,163,253,0.18);
+      --muted: #9ca3af;
+      --text: #e5e7eb;
+      --accent: #c41e3a;                 /* default red */
+      --accent-soft: rgba(196,30,58,0.16);
+      --radius-xl: 20px;
+      --shadow: 0 18px 40px rgba(15,23,42,0.9);
+    }
+
+    body.theme-earth {
+      --accent:#8b5a2b;
+      --accent-soft:rgba(139,90,43,0.22);
+    }
+    body.theme-night {
+      --accent:#f97316;
+      --accent-soft:rgba(249,115,22,0.18);
+    }
+    body.theme-green {
+      --accent:#16a34a;
+      --accent-soft:rgba(22,163,74,0.18);
+    }
+
+    * { box-sizing:border-box; }
+
+    body {
+      margin:0;
+      min-height:100vh;
+      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
+      background:
+        radial-gradient(circle at top, rgba(148,163,253,0.18) 0, #020817 38%, #000 100%);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      padding:14px 10px 18px;
+      display:flex;
+      justify-content:center;
+    }
+
+    .shell {
+      width:100%;
+      max-width:1120px;
+      background:radial-gradient(circle at top, rgba(15,23,42,0.9), var(--shell));
+      border-radius:26px;
+      padding:14px 12px 14px;
+      border:1px solid rgba(148,163,253,0.22);
+      box-shadow:var(--shadow);
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    .topbar {
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:10px;
+    }
+
+    .brand {
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+    }
+
+    .brand-label {
+      font-size:.55rem;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      color:var(--muted);
+    }
+
+    .brand-title {
+      font-size:1.1rem;
+      font-weight:800;
+      display:flex;
+      align-items:baseline;
+      gap:6px;
+    }
+
+    .brand-pill {
+      padding:2px 7px;
+      border-radius:999px;
+      font-size:.5rem;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      border:1px solid rgba(148,163,253,0.4);
+      color:#a5b4fc;
+    }
+
+    .brand-sub {
+      font-size:.65rem;
+      color:var(--muted);
+    }
+
+    .controls {
+      display:flex;
+      flex-direction:column;
+      align-items:flex-end;
+      gap:4px;
+      font-size:.55rem;
+      color:var(--muted);
+    }
+
+    .control-label {
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      font-size:.5rem;
+      color:var(--muted);
+    }
+
+    .pills {
+      display:flex;
+      flex-wrap:wrap;
+      gap:4px;
+    }
+
+    .pill-btn {
+      padding:3px 8px;
+      border-radius:999px;
+      border:1px solid rgba(148,163,253,0.26);
+      background:rgba(2,6,23,0.96);
+      color:var(--muted);
+      font-size:.55rem;
+      cursor:pointer;
+      transition:.16s;
+      display:inline-flex;
+      align-items:center;
+      gap:4px;
+      white-space:nowrap;
+    }
+
+    .pill-btn span.dot {
+      width:7px;height:7px;border-radius:999px;
+      background:var(--accent);
+    }
+
+    .pill-btn:hover {
+      color:var(--accent);
+      border-color:var(--accent);
+      background:var(--accent-soft);
+    }
+
+    .pill-btn.active {
+      color:var(--accent);
+      border-color:var(--accent);
+      background:var(--accent-soft);
+    }
+
+    /* Layout */
+    .headline {
+      font-size:.9rem;
+      font-weight:600;
+    }
+
+    .subline {
+      font-size:.65rem;
+      color:var(--muted);
+      max-width:520px;
+    }
+
+    .layout {
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      margin-top:2px;
+    }
+
+    .tabs {
+      display:flex;
+      flex-wrap:wrap;
+      gap:4px;
+      font-size:.6rem;
+    }
+
+    .tab-btn {
+      padding:4px 9px;
+      border-radius:999px;
+      border:1px solid rgba(75,85,99,0.9);
+      background:rgba(9,9,16,0.98);
+      color:var(--muted);
+      cursor:pointer;
+      transition:.16s;
+    }
+    .tab-btn.active {
+      border-color:var(--accent);
+      color:var(--accent);
+      background:var(--accent-soft);
+    }
+    .tab-btn:hover {
+      border-color:var(--accent);
+      color:var(--accent);
+    }
+
+    .grid {
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:6px;
+      margin-top:4px;
+    }
+
+    @media (max-width:880px){
+      .shell{padding:12px 9px 12px;}
+      .grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+    }
+    @media (max-width:640px){
+      body{padding:10px 6px 12px;}
+      .grid{grid-template-columns:1fr;}
+    }
+
+    .doc-card {
+      background:var(--card);
+      border-radius:var(--radius-xl);
+      border:1px solid var(--border);
+      padding:8px 7px 7px;
+      box-shadow:0 10px 26px rgba(0,0,0,0.9);
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+      cursor:pointer;
+      transition:.16s;
+      font-size:.6rem;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .doc-card:hover {
+      transform:translateY(-2px);
+      box-shadow:0 14px 32px rgba(0,0,0,1);
+      border-color:var(--accent);
+    }
+
+    .doc-label {
+      font-size:.48rem;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      color:var(--muted);
+    }
+
+    .doc-title {
+      font-size:.72rem;
+      font-weight:600;
+      color:var(--text);
+    }
+
+    .doc-note {
+      font-size:.56rem;
+      color:var(--muted);
+    }
+
+    .doc-tag {
+      align-self:flex-start;
+      margin-top:2px;
+      padding:2px 6px;
+      border-radius:999px;
+      font-size:.48rem;
+      background:var(--accent-soft);
+      color:var(--accent);
+    }
+
+    .soon {
+      position:absolute;
+      right:6px;
+      top:5px;
+      font-size:.45rem;
+      padding:2px 5px;
+      border-radius:999px;
+      background:rgba(15,23,42,0.98);
+      color:var(--muted);
+      border:1px solid rgba(75,85,99,0.9);
+    }
+
+    .hint {
+      margin-top:4px;
+      font-size:.5rem;
+      color:var(--muted);
+    }
+
+    a {
+      color:inherit;
+      text-decoration:none;
+    }
+
+    .shortcut-toast {
+      position:fixed;
+      right:10px;
+      bottom:10px;
+      padding:7px 9px;
+      border-radius:12px;
+      background:rgba(9,9,16,0.98);
+      border:1px solid rgba(148,163,253,0.35);
+      box-shadow:0 14px 32px rgba(0,0,0,1);
+      font-size:.5rem;
+      color:var(--muted);
+      display:none;
+      gap:5px;
+      align-items:center;
+      z-index:40;
+    }
+    .shortcut-toast strong{
+      color:var(--accent);
+      font-weight:600;
+    }
+    .shortcut-toast button{
+      padding:2px 6px;
+      border-radius:999px;
+      border:none;
+      background:var(--accent);
+      color:#fff;
+      font-size:.48rem;
+      cursor:pointer;
+    }
+  </style>
+</head>
+<body>
+<div class="shell">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-label">CARDINAL GARAGE</div>
+      <div class="brand-title">
+        Pro Docs & Forms
+        <span class="brand-pill">SALES U • BETA</span>
+      </div>
+      <div class="brand-sub">
+        One workspace for field docs, estimate sheets, and live decks.
+      </div>
+    </div>
+    <div class="controls">
+      <div class="control-label">Theme</div>
+      <div class="pills" id="themePills">
+        <button class="pill-btn active" data-theme="default"><span class="dot"></span>Red</button>
+        <button class="pill-btn" data-theme="earth">Earth</button>
+        <button class="pill-btn" data-theme="night">Night</button>
+        <button class="pill-btn" data-theme="green">Green</button>
+      </div>
+      <div class="control-label">Workspace</div>
+      <div class="pills">
+        <button class="pill-btn" id="btnShortcut">Add to home</button>
+        <button class="pill-btn" onclick="window.location.href='../index.html'">Back to Pro Deck</button>
+      </div>
+    </div>
+  </header>
+
+  <section class="layout">
+    <div class="headline">
+      Pick a tab, grab a doc, keep rolling. No fluff, just tools.
+    </div>
+    <div class="subline">
+      These are digital-first forms. You can clone them, print them, or plug them into your own system.
+      Pricing logic & AI reads live in the Pro Deck — this room stays lean.
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs" id="tabBar">
+      <button class="tab-btn active" data-tab="estimates">Estimate sheets</button>
+      <button class="tab-btn" data-tab="site">Site checklists</button>
+      <button class="tab-btn" data-tab="client">Client emails & pitches</button>
+      <button class="tab-btn" data-tab="ops">Ops / crew docs</button>
+      <button class="tab-btn" data-tab="salesu">Sales U playbooks</button>
+    </div>
+
+    <!-- Tab: Estimates -->
+    <div class="grid tab-panel" id="tab-estimates">
+      <a href="#" class="doc-card">
+        <div class="doc-label">Mulch / Bed</div>
+        <div class="doc-title">Mulch refresh estimator</div>
+        <div class="doc-note">
+          Simple sqft + depth + haul. Mirrors the Pro photo → price logic.
+        </div>
+        <div class="doc-tag">Open form</div>
+      </a>
+      <a href="#" class="doc-card">
+        <div class="doc-label">Clean-up</div>
+        <div class="doc-title">Spring / fall clean-up sheet</div>
+        <div class="doc-note">
+          Bags, branches, beds, haul. Builds a tight, believable ticket.
+        </div>
+        <div class="doc-tag">Open form</div>
+      </a>
+      <a href="#" class="doc-card">
+        <div class="doc-label">Mowing</div>
+        <div class="doc-title">Weekly route estimator</div>
+        <div class="doc-note">
+          Yard size, hedges, gates, obstacles. Finds your floor so you stop guessing.
+        </div>
+        <div class="doc-tag">Open form</div>
+      </a>
+    </div>
+
+    <!-- Tab: Site -->
+    <div class="grid tab-panel" id="tab-site" style="display:none">
+      <div class="doc-card">
+        <div class="doc-label">Walk</div>
+        <div class="doc-title">5-minute site walk checklist</div>
+        <div class="doc-note">
+          Edges, water, slope, roots, access. One page. No clipboards.
+        </div>
+        <div class="doc-tag">Template</div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-label">Risk</div>
+        <div class="doc-title">Risk / red-flag sheet</div>
+        <div class="doc-note">
+          Soft ground, drainage, vehicles, neighbor lines. Protect your price.
+        </div>
+        <div class="doc-tag">Template</div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-label">Photos</div>
+        <div class="doc-title">Before / after capture guide</div>
+        <div class="doc-note">
+          6 angles that make your work obvious and upsell easy.
+        </div>
+        <div class="doc-tag">Guide</div>
+      </div>
+    </div>
+
+    <!-- Tab: Client -->
+    <div class="grid tab-panel" id="tab-client" style="display:none">
+      <div class="doc-card">
+        <div class="doc-label">Message</div>
+        <div class="doc-title">Estimate text / DM script</div>
+        <div class="doc-note">
+          Short, direct, no pressure. Plug in your ticket, hit send.
+        </div>
+        <div class="doc-tag">Copy snippet</div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-label">Follow-up</div>
+        <div class="doc-title">"48-hour check-in" followup</div>
+        <div class="doc-note">
+          Simple nudge that doesn’t sound thirsty. Keeps you first.
+        </div>
+        <div class="doc-tag">Copy snippet</div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-label">Upgrade</div>
+        <div class="doc-title">Good / Better / Best bundle</div>
+        <div class="doc-note">
+          Three-option layout that matches your Pro deck numbers.
+        </div>
+        <div class="doc-tag">Play</div>
+      </div>
+    </div>
+
+    <!-- Tab: Ops -->
+    <div class="grid tab-panel" id="tab-ops" style="display:none">
+      <div class="doc-card">
+        <div class="doc-label">Crew</div>
+        <div class="doc-title">Crew card • day-of scope</div>
+        <div class="doc-note">
+          One-card instructions. No novels. No confusion in the yard.
+        </div>
+        <div class="doc-tag">PDF / screenshot</div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-label">Route</div>
+        <div class="doc-title">Daily route strip</div>
+        <div class="doc-note">
+          Time blocks + notes. Meant to be screenshotted.
+        </div>
+        <div class="doc-tag">Template</div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-label">Money</div>
+        <div class="doc-title">Fast deposit tracker</div>
+        <div class="doc-note">
+          Log ticket, payment, tips. Keeps your week real.
+        </div>
+        <div class="doc-tag">Sheet</div>
+      </div>
+    </div>
+
+    <!-- Tab: Sales U -->
+    <div class="grid tab-panel" id="tab-salesu" style="display:none">
+      <div class="doc-card">
+        <div class="doc-label">Playbook</div>
+        <div class="doc-title"> Day-1 Sales U bundle </div>
+        <div class="doc-note">
+          Tight notes on framing value, reading yards, and not underbidding.
+        </div>
+        <span class="soon">BETA</span>
+        <div class="doc-tag">Unlock via Pro deck</div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-label">Recording</div>
+        <div class="doc-title">Live breakdown sessions</div>
+        <div class="doc-note">
+          Future slot for call / estimate breakdowns. Keep space reserved.
+        </div>
+        <span class="soon">Soon</span>
+      </div>
+      <div class="doc-card">
+        <div class="doc-label">Community</div>
+        <div class="doc-title">Crew room link</div>
+        <div class="doc-note">
+          Where pros swap real tickets & fixes. Not public-facing.
+        </div>
+        <span class="soon">Soon</span>
+      </div>
+    </div>
+
+    <div class="hint">
+      Hook this page from your Pro deck with:
+      <code style="font-size:.5rem;color:var(--accent);background:rgba(0,0,0,0.6);padding:2px 4px;border-radius:4px;">/pro/docs/</code>
+      — everything here lives under that.
+    </div>
+  </section>
+</div>
+
+<div class="shortcut-toast" id="shortcutToast">
+  <strong>Heads up:</strong> Use your browser’s “Add to Home Screen” to pin this workspace.
+  <button id="toastClose">Got it</button>
+</div>
+
+<script>
+  // THEME TOGGLE
+  (function(){
+    const saved = localStorage.getItem("cgDocsTheme");
+    if (saved && saved !== "default") {
+      document.body.classList.add("theme-" + saved);
+      document.querySelectorAll("#themePills .pill-btn").forEach(b=>{
+        b.classList.toggle("active", b.dataset.theme === saved);
+      });
+    }
+    document.querySelectorAll("#themePills .pill-btn").forEach(btn=>{
+      btn.addEventListener("click",()=>{
+        document.querySelectorAll("#themePills .pill-btn").forEach(b=>b.classList.remove("active"));
+        btn.classList.add("active");
+        document.body.classList.remove("theme-earth","theme-night","theme-green");
+        const t = btn.dataset.theme;
+        if (t && t !== "default") document.body.classList.add("theme-" + t);
+        localStorage.setItem("cgDocsTheme", t || "default");
+      });
+    });
+  })();
+
+  // TABS
+  (function(){
+    const tabs = document.querySelectorAll(".tab-btn");
+    const panels = {
+      estimates: document.getElementById("tab-estimates"),
+      site: document.getElementById("tab-site"),
+      client: document.getElementById("tab-client"),
+      ops: document.getElementById("tab-ops"),
+      salesu: document.getElementById("tab-salesu")
+    };
+    tabs.forEach(btn=>{
+      btn.addEventListener("click",()=>{
+        tabs.forEach(b=>b.classList.remove("active"));
+        btn.classList.add("active");
+        const key = btn.dataset.tab;
+        Object.keys(panels).forEach(k=>{
+          panels[k].style.display = (k === key) ? "grid" : "none";
+        });
+      });
+    });
+  })();
+
+  // "Add to home" helper (we can't force install, just educate)
+  (function(){
+    const btn = document.getElementById("btnShortcut");
+    const toast = document.getElementById("shortcutToast");
+    const close = document.getElementById("toastClose");
+    if (!btn || !toast || !close) return;
+
+    btn.addEventListener("click", ()=>{
+      toast.style.display = "flex";
+    });
+    close.addEventListener("click", ()=>{
+      toast.style.display = "none";
+    });
+  })();
+</script>
+</body>
+</html>
